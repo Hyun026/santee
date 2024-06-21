@@ -58,7 +58,7 @@ class StoreData {
         // Query to find the document with this user ID
         QuerySnapshot querySnapshot = await _firestore
             .collection("users")
-            .where('userId', isEqualTo: user.uid)
+            .where('user', isEqualTo: user.uid)
             .get();
 
         if (querySnapshot.docs.isNotEmpty) {

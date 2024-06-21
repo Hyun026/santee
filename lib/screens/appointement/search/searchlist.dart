@@ -99,6 +99,7 @@ class _MyMainPageState extends State<MyMainPage> {
     );
   }
 }
+/*
 
 class UserD {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -129,3 +130,4 @@ class UserD {
     }
   }
 }
+*/
