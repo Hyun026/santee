@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26.972" height="34.558" viewBox="0 0 26.972 34.558">
+  <g id="icons8_medical_doctor" transform="translate(-8 -3)">
+    <path id="Path_712" data-name="Path 712" d="M23.214,37.643,19,30.057V25h8.429v5.057Z" transform="translate(-1.728 -3.457)" fill="#ff9800"/>
+    <path id="Path_713" data-name="Path 713" d="M16.372,18.686A1.686,1.686,0,1,1,14.686,17a1.685,1.685,0,0,1,1.686,1.686m15.172,0A1.686,1.686,0,1,1,29.858,17a1.685,1.685,0,0,1,1.686,1.686" transform="translate(-0.786 -2.2)" fill="#ffa726"/>
+    <path id="Path_714" data-name="Path 714" d="M30.172,12.249c0-6.435-15.172-4.19-15.172,0v5.9a7.586,7.586,0,1,0,15.172,0Z" transform="translate(-1.1 -0.82)" fill="#ffb74d"/>
+    <path id="Path_715" data-name="Path 715" d="M25.743,18.843A.843.843,0,1,0,26.586,18a.843.843,0,0,0-.843.843m-6.743,0A.843.843,0,1,0,19.843,18a.843.843,0,0,0-.843.843" transform="translate(-1.728 -2.357)" fill="#784719"/>
+    <path id="Path_716" data-name="Path 716" d="M22.429,4C17.308,4,14,8.151,14,13.272V15.2l1.686,1.446V12.429L25.8,9.057l3.372,3.372v4.214l1.686-1.467v-1.9c0-3.393-.875-6.756-5.057-7.586L24.957,4Z" transform="translate(-0.943 -0.157)" fill="#424242"/>
+    <g id="Group_898" data-name="Group 898" transform="translate(8 3)">
+      <path id="Path_717" data-name="Path 717" d="M25.7,26.6l-4.214,7.586L17.272,26.6S8,28.274,8,37.558H34.972C34.972,28.307,25.7,26.6,25.7,26.6Zm4.214-13.486a49.278,49.278,0,0,0-8.429-.843,49.278,49.278,0,0,0-8.429.843A65.081,65.081,0,0,1,13.9,4.686S15.9,3,21.7,3s7.375,1.686,7.375,1.686A65.081,65.081,0,0,1,29.915,13.115Z" transform="translate(-8 -3)" fill="#b3e5fc"/>
+    </g>
+    <g id="Group_899" data-name="Group 899" transform="translate(18.957 5.529)">
+      <path id="Path_718" data-name="Path 718" d="M23,6h1.686v5.057H23Z" transform="translate(-21.314 -6)" fill="#f44336"/>
+      <path id="Path_719" data-name="Path 719" d="M21,8h5.057V9.686H21Z" transform="translate(-21 -6.314)" fill="#f44336"/>
+    </g>
+  </g>
+</svg>

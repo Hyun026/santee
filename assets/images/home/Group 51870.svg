@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="63" height="63" viewBox="0 0 63 63">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.439" y1="0.665" x2="0.316" y2="0.924" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#d0e0fc"/>
+    </linearGradient>
+    <filter id="Ellipse_108" x="0" y="0" width="63" height="63" filterUnits="userSpaceOnUse">
+      <feOffset dy="4" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="4.5" result="blur"/>
+      <feFlood flood-opacity="0.322"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_51870" data-name="Group 51870" transform="translate(-270.5 -289.5)">
+    <g transform="matrix(1, 0, 0, 1, 270.5, 289.5)" filter="url(#Ellipse_108)">
+      <circle id="Ellipse_108-2" data-name="Ellipse 108" cx="18" cy="18" r="18" transform="translate(13.5 9.5)" fill="url(#linear-gradient)"/>
+    </g>
+    <g id="calendar_dd" data-name="calendar dd" transform="translate(292.621 285.201)">
+      <g id="Group_653" data-name="Group 653" transform="translate(0 30.52)">
+        <g id="Group_652" data-name="Group 652">
+          <path id="Path_567" data-name="Path 567" d="M18.331,221.091a.4.4,0,0,0-.426.426v4.689a.855.855,0,0,1-.853.853H16.2a1.256,1.256,0,0,0-1.279,1.279v.853a.855.855,0,0,1-.853.853H1.279a.4.4,0,0,1-.426-.426v-8.1a.4.4,0,0,0-.426-.426.4.4,0,0,0-.426.426v8.1A1.256,1.256,0,0,0,1.279,230.9H14.622a2,2,0,0,0,1.492-.639l2-2a2.171,2.171,0,0,0,.639-1.492v-5.243A.4.4,0,0,0,18.331,221.091Zm-2.6,8.4c0-.085.043-.171.043-.3v-.853a.4.4,0,0,1,.426-.426h.853a.832.832,0,0,0,.3-.043Z" transform="translate(0 -221.091)" fill="#0074af"/>
+        </g>
+      </g>
+      <g id="Group_655" data-name="Group 655" transform="translate(0 23.273)">
+        <g id="Group_654" data-name="Group 654">
+          <path id="Path_568" data-name="Path 568" d="M17.478,24.552H14.494V23.7a.426.426,0,1,0-.853,0v.853H5.116V23.7a.4.4,0,0,0-.426-.426.4.4,0,0,0-.426.426v.853H1.279A1.256,1.256,0,0,0,0,25.831v3.41a.4.4,0,0,0,.426.426h17.9a.4.4,0,0,0,.426-.426v-3.41A1.256,1.256,0,0,0,17.478,24.552Zm.426,4.263H.853V25.831a.4.4,0,0,1,.426-.426H4.263v.981a.825.825,0,0,0-.426.725.853.853,0,1,0,1.705,0,.825.825,0,0,0-.426-.725V25.4h8.526v.981a.825.825,0,0,0-.426.725.853.853,0,1,0,1.705,0,.825.825,0,0,0-.426-.725V25.4h2.984a.4.4,0,0,1,.426.426v2.984Z" transform="translate(0 -23.273)" fill="#0074af"/>
+        </g>
+      </g>
+      <g id="Group_657" data-name="Group 657" transform="translate(6.821 31.373)">
+        <g id="Group_656" data-name="Group 656">
+          <circle id="Ellipse_127" data-name="Ellipse 127" cx="0.853" cy="0.853" r="0.853" fill="#0074af"/>
+        </g>
+      </g>
+      <g id="Group_659" data-name="Group 659" transform="translate(10.231 31.373)">
+        <g id="Group_658" data-name="Group 658">
+          <circle id="Ellipse_128" data-name="Ellipse 128" cx="0.853" cy="0.853" r="0.853" fill="#0074af"/>
+        </g>
+      </g>
+      <g id="Group_661" data-name="Group 661" transform="translate(13.642 31.373)">
+        <g id="Group_660" data-name="Group 660">
+          <circle id="Ellipse_129" data-name="Ellipse 129" cx="0.853" cy="0.853" r="0.853" fill="#0074af"/>
+        </g>
+      </g>
+      <g id="Group_663" data-name="Group 663" transform="translate(3.41 35.209)">
+        <g id="Group_662" data-name="Group 662">
+          <circle id="Ellipse_130" data-name="Ellipse 130" cx="0.853" cy="0.853" r="0.853" fill="#0074af"/>
+        </g>
+      </g>
+      <g id="Group_665" data-name="Group 665" transform="translate(6.821 35.209)">
+        <g id="Group_664" data-name="Group 664">
+          <circle id="Ellipse_131" data-name="Ellipse 131" cx="0.853" cy="0.853" r="0.853" fill="#0074af"/>
+        </g>
+      </g>
+      <g id="Group_667" data-name="Group 667" transform="translate(10.231 35.209)">
+        <g id="Group_666" data-name="Group 666">
+          <circle id="Ellipse_132" data-name="Ellipse 132" cx="0.853" cy="0.853" r="0.853" fill="#0074af"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

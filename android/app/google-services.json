@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "898467525980",
+    "project_id": "sante-b1cde",
+    "storage_bucket": "sante-b1cde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898467525980:android:450634d2f9416b7f60bd99",
+        "android_client_info": {
+          "package_name": "com.example.sante_en_poche"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvfRjHjHvnPW-RElWkuwFnVbKd48MAMKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
