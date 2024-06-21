@@ -14,7 +14,8 @@ import 'package:sante_en_poche/home.dart';
 import 'package:sante_en_poche/screens/login/login.dart';
 
 Future<void> main() async {
-  SystegitmChrome.setPreferredOrientations([
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
   WidgetsFlutterBinding.ensureInitialized();

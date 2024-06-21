@@ -23,15 +23,6 @@ class MySignup3 extends StatefulWidget {
 }
 
 class _MySignup3State extends State<MySignup3> {
-  
-  
-   
- 
-   
-  
-
-
-
   List<Option> optionsList = [
     Option(
       value: "Option 1",
@@ -43,11 +34,11 @@ class _MySignup3State extends State<MySignup3> {
     ),
     Option(
       value: "Option 3",
-     controller: TextEditingController(),
+      controller: TextEditingController(),
     ),
     Option(
       value: "Option 4",
-     controller: TextEditingController(),
+      controller: TextEditingController(),
     ),
   ];
 
@@ -68,7 +59,7 @@ class _MySignup3State extends State<MySignup3> {
 
   Option? selectedOption;
   Options? selectedOptions;
-  String uid= '';
+  String uid = '';
   String name = "";
   String lastname = "";
   String cin = "";
@@ -84,10 +75,6 @@ class _MySignup3State extends State<MySignup3> {
   String kidName = "";
   String kidLastName = "";
   String kidCIN = "";
- 
- 
-
-  
 
   @override
   void didChangeDependencies() async {
@@ -112,10 +99,8 @@ class _MySignup3State extends State<MySignup3> {
     });
   }
 
-  
-
   TextEditingController commentController = TextEditingController();
-   final User? user = FirebaseAuth.instance.currentUser;
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -329,7 +314,8 @@ class _MySignup3State extends State<MySignup3> {
                       ),
                     ),
                     onPressed: () async {
-                       String downloadUrl = await uploadImage('assets/images/search/Sanstitre.png');
+                      String downloadUrl = await uploadImage(
+                          'assets/images/search/Sanstitre.png');
                       Map<String, dynamic> dataToSave = {
                         'user': user!.uid,
                         'name': name,
@@ -348,27 +334,23 @@ class _MySignup3State extends State<MySignup3> {
                         'kidLastName': kidLastName,
                         'kidCIN': kidCIN,
                         'comment': commentController.text,
-                        'imageLink':downloadUrl,
-                      
+                        'imageLink': downloadUrl,
                       };
-                      
 
-                       DocumentReference docRef = await FirebaseFirestore.instance
-                    .collection("users")
-                    .add(dataToSave);
+                      await FirebaseFirestore.instance
+                          .collection("users")
+                          .doc(user!.uid)
+                          .set(dataToSave);
 
-                
-                String newDocumentId = docRef.id;
-
-                final prefs = await   SharedPreferences.getInstance();
-                            prefs.setString("imageLink",downloadUrl);
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.setString("imageLink", downloadUrl);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>MyBackgroundHome(child: MyHome()) ,
+                          builder: (context) =>
+                              MyBackgroundHome(child: MyHome()),
                         ),
                       );
-                      
                     },
                     child: Text(
                       'Suivant',
@@ -387,33 +369,31 @@ class _MySignup3State extends State<MySignup3> {
       ),
     );
   }
-  
+
   Future<String> uploadImage(String assetPath) async {
-  try {
-    // Load image data from the asset
-    final byteData = await rootBundle.load(assetPath);
-    final imageData = byteData.buffer.asUint8List();
+    try {
+      // Load image data from the asset
+      final byteData = await rootBundle.load(assetPath);
+      final imageData = byteData.buffer.asUint8List();
 
-    // Extract the file name from the path
-    final fileName = assetPath.split('/').last;
+      // Extract the file name from the path
+      final fileName = assetPath.split('/').last;
 
-    // Upload image to Firebase Storage
-    final storageRef = FirebaseStorage.instance.ref().child('ProfileImage/$fileName');
-    final uploadTask = storageRef.putData(imageData);
+      // Upload image to Firebase Storage
+      final storageRef =
+          FirebaseStorage.instance.ref().child('ProfileImage/$fileName');
+      final uploadTask = storageRef.putData(imageData);
 
-    // Wait for the upload to complete and get the download URL
-    final snapshot = await uploadTask;
-    final downloadUrl = await snapshot.ref.getDownloadURL();
+      // Wait for the upload to complete and get the download URL
+      final snapshot = await uploadTask;
+      final downloadUrl = await snapshot.ref.getDownloadURL();
 
-    return downloadUrl;
-  } catch (e) {
-    print('Error uploading image: $e');
-    return '';
+      return downloadUrl;
+    } catch (e) {
+      print('Error uploading image: $e');
+      return '';
+    }
   }
-}
-
-
-
 }
 
 class Option {
@@ -425,7 +405,7 @@ class Option {
   Option({
     required this.value,
     this.isSelected = false,
-   required this.controller,
+    required this.controller,
   });
 }
 

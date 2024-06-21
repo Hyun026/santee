@@ -30,7 +30,7 @@ class _MyMainPageState extends State<MyMainPage> {
     }
   }
 
-  void saveProfile() async {
+  Future<void>saveProfile() async {
     if (image == null) {
       print('No image selected');
       return;
@@ -72,9 +72,9 @@ class _MyMainPageState extends State<MyMainPage> {
       backgroundImage: image != null ? MemoryImage(image!) : null,
       child: image == null
           ? GestureDetector(
-              onTap: () {
-        selectImage();
-        saveProfile();
+              onTap: () async {
+        await selectImage();
+        await saveProfile();
       },     
               child: CircleAvatar(
                 radius: 50,
