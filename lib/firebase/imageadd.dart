@@ -9,14 +9,17 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:sante_en_poche/screens/appointement/search/searchlist.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-pickImage(ImageSource source) async {
+// Function to pick an image
+Future<Uint8List?> pickImage(ImageSource source) async {
   final ImagePicker _imagePicker = ImagePicker();
   XFile? _file = await _imagePicker.pickImage(source: source);
   if (_file != null) {
     return await _file.readAsBytes();
   }
-  print('no images selected');
+  print('No images selected');
+  return null;
 }
 
 class StoreData {
@@ -24,8 +27,7 @@ class StoreData {
 
   Future<String> uploadImageToStorage(String childName, Uint8List file) async {
     try {
-      Reference ref =
-          _storage.ref().child(childName).child(DateTime.now().toString());
+      Reference ref = _storage.ref().child(childName).child(DateTime.now().toString());
       UploadTask uploadTask = ref.putData(file);
 
       TaskSnapshot snapshot = await uploadTask;
@@ -44,46 +46,38 @@ class StoreData {
       String imageUrl = await uploadImageToStorage('ProfileImage', file);
 
       final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+      final FirebaseAuth _auth = FirebaseAuth.instance;
 
-      Future<DocumentReference?> getUserDocumentReference() async {
-        // Ensure user is authenticated
-        User? user = FirebaseAuth.instance.currentUser;
-        if (user == null) {
-          print('No authenticated user.');
-          return null;
-        }
+      User? user = _auth.currentUser;
 
-        print('Authenticated User UID: ${user.uid}'); // Debug print
+      if (user != null) {
+        DocumentReference docRef = _firestore.collection('users').doc(user.uid);
 
-        // Query to find the document with this user ID
-        QuerySnapshot querySnapshot = await _firestore
-            .collection("users")
-            .where('user', isEqualTo: user.uid)
-            .get();
+        DocumentSnapshot docSnapshot = await docRef.get();
 
-        if (querySnapshot.docs.isNotEmpty) {
-          DocumentReference docRef = querySnapshot.docs.first.reference;
-          print('Document found with ID: ${docRef.id}');
-          if (docRef != null) {
-            print('Document exists, updating...'); // Debug print
-            await docRef.update({
-              'imageLink': imageUrl,
-            });
-          } else {
-            // If document reference is null, handle as needed
-            print('No document found for current user.');
-          }
+        if (docSnapshot.exists) {
+          print('Document exists, updating...'); // Debug print
+          await docRef.update({
+            'imageLink': imageUrl,
+          });
+          // Save the new image link to SharedPreferences
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString("imageLink", imageUrl);
+
           response = 'success';
-          return docRef;
         } else {
-          print('No document found for user ID: ${user.uid}');
-          return null;
+          print('No document found for current user.');
+          response = 'No document found for current user.';
         }
+      } else {
+        print('No user is currently signed in.');
+        response = 'No user is currently signed in.';
       }
     } catch (err) {
       print('Error: $err'); // Debug print
       response = err.toString();
     }
+
     return response;
   }
 }

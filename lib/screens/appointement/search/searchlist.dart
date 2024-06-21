@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sante_en_poche/firebase/imageadd.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -18,45 +19,48 @@ class MyMainPage extends StatefulWidget {
 
 class _MyMainPageState extends State<MyMainPage> {
  
-  Uint8List? image;
+ Uint8List? image;
+  String image1 = "";
 
-  Future <void> selectImage() async {
+  Future<void> selectImage() async {
     Uint8List? img = await pickImage(ImageSource.gallery);
     if (img != null) {
       setState(() {
         image = img;
       });
-      
+      await saveProfile();
     }
   }
 
-  Future<void>saveProfile() async {
+  Future<void> saveProfile() async {
     if (image == null) {
       print('No image selected');
       return;
     }
-   String resp = await StoreData().saveData(file: image! ,);
+    String resp = await StoreData().saveData(file: image!);
     if (resp == 'success') {
       print('Profile updated successfully');
+      await _updateImageLink();
     } else {
       print('Failed to update profile: $resp');
     }
   }
 
-  //for the profile
-  /*
-  String image="";
-
-   @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
+  Future<void> _updateImageLink() async {
     final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      image = prefs.getString("imageLink")!;
-    });
+    String? savedImageLink = prefs.getString("imageLink");
+    if (savedImageLink != null) {
+      setState(() {
+        image1 = savedImageLink;
+      });
+    }
   }
-*/
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _updateImageLink();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,30 +72,24 @@ class _MyMainPageState extends State<MyMainPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(
-      radius: 50,
-      backgroundImage: image != null ? MemoryImage(image!) : null,
-      child: image == null
-          ? GestureDetector(
-              onTap: () async {
-        await selectImage();
-        await saveProfile();
-      },     
-              child: CircleAvatar(
                 radius: 50,
-                child: SvgPicture.asset('assets/images/search/avatar-people-profile-svgrepo-com.svg'),
-              /*  backgroundImage:image.isNotEmpty ? NetworkImage(image) : null,
-          child: image.isEmpty ?  Icon(Icons.person, size: 50)  : null*/
-          //,
+                backgroundImage: image != null ? MemoryImage(image!) : null,
+                child: image == null
+                    ? GestureDetector(
+                        onTap: selectImage,
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage: image1.isNotEmpty ? NetworkImage(image1) : null,
+                          child: image1.isEmpty ? Icon(Icons.person, size: 50) : null,
+                        ),
+                      )
+                    : null,
               ),
-            )
-          : null,
-    ),
-                    Column(
-                      children: [
-                        Text('Bienvenue'),
-
-                      ],
-                    ),
+              Column(
+                children: [
+                  Text('Bienvenue'),
+                ],
+              ),
             ],
           ),
         ],
