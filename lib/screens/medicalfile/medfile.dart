@@ -14,15 +14,48 @@ class MyMedFile extends StatefulWidget {
 }
 
 class _MyMedFileState extends State<MyMedFile> {
+  /*
   final user = FirebaseAuth.instance.currentUser!;
 
   List<String> docIDs = [];
 
-  Future getDocId()async {
+   Future getDocId()async {
     await FirebaseFirestore.instance.collection('users').where('user', isEqualTo: user.uid).get().then((snapshot) => snapshot.docs.forEach((document) {
       print(document.reference);
       docIDs.add(document.reference.id);
     }),);
+  }
+
+  Future getDoctId()async {
+    await FirebaseFirestore.instance.collection('doctor').where('user', isEqualTo: user.uid).get().then((snapshot) => snapshot.docs.forEach((document) {
+     print(document.reference);
+     docIDs.add(document.reference.id);
+    }),);
+  }*/
+   final User user = FirebaseAuth.instance.currentUser!;
+  List<String> docIDs = [];
+  String collection = '';
+
+  Future<void> checkUserCollection() async {
+    // Clear previous results
+    docIDs.clear();
+    collection = '';
+
+    // Check in 'users' collection
+    var userSnapshot = await FirebaseFirestore.instance.collection('users').where('user', isEqualTo: user.uid).get();
+    if (userSnapshot.docs.isNotEmpty) {
+      collection = 'users';
+      docIDs = userSnapshot.docs.map((doc) => doc.id).toList();
+      return;
+    }
+
+    // Check in 'doctor' collection
+    var doctorSnapshot = await FirebaseFirestore.instance.collection('doctors').where('user', isEqualTo: user.uid).get();
+    if (doctorSnapshot.docs.isNotEmpty) {
+      collection = 'doctors';
+      docIDs = doctorSnapshot.docs.map((doc) => doc.id).toList();
+      return;
+    }
   }
 
  
@@ -51,7 +84,32 @@ class _MyMedFileState extends State<MyMedFile> {
                     ),
                     child: Column(children: [
                       Expanded(
-                                child: FutureBuilder(future: getDocId(),
+                                child:  FutureBuilder(
+                            future: checkUserCollection(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return Center(child: CircularProgressIndicator());
+                              }
+                              if (snapshot.hasError) {
+                                return Center(child: Text('Error: ${snapshot.error}'));
+                              }
+                              if (docIDs.isEmpty) {
+                                return Center(child: Text('No documents found for user.'));
+                              }
+                              return ListView.builder(
+                                itemCount: docIDs.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: GetUser(documentId: docIDs[index], collection: collection),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                                
+                                /*FutureBuilder(
+                                  future: getDocId(),
                                   builder:(context, snapshot) {
                                     return ListView.builder(
                                       itemCount: docIDs.length,
@@ -64,8 +122,8 @@ class _MyMedFileState extends State<MyMedFile> {
                                     );
                     
                                     
-                                  },),
-                              ),
+                                  },),*/
+                              
                     ],),
                   ),
                 ),

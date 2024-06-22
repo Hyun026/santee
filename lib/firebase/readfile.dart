@@ -6,7 +6,8 @@ import 'package:flutter_svg/svg.dart';
 
 class GetUser extends StatelessWidget {
   final String documentId;
-  const GetUser({required this.documentId});
+   final String collection;
+  const GetUser({required this.documentId, required this.collection});
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +177,8 @@ class GetUser extends StatelessWidget {
         }
         return Text('loading..');
   }),
-      future:  FirebaseFirestore.instance.collection('users').doc(documentId).get(),
+      future: FirebaseFirestore.instance.collection(collection).doc(documentId).get(),
+       // FirebaseFirestore.instance.collection('users').doc(documentId).get(),
     );
   }
 }
