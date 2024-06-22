@@ -14,24 +14,7 @@ class MyMedFile extends StatefulWidget {
 }
 
 class _MyMedFileState extends State<MyMedFile> {
-  /*
-  final user = FirebaseAuth.instance.currentUser!;
-
-  List<String> docIDs = [];
-
-   Future getDocId()async {
-    await FirebaseFirestore.instance.collection('users').where('user', isEqualTo: user.uid).get().then((snapshot) => snapshot.docs.forEach((document) {
-      print(document.reference);
-      docIDs.add(document.reference.id);
-    }),);
-  }
-
-  Future getDoctId()async {
-    await FirebaseFirestore.instance.collection('doctor').where('user', isEqualTo: user.uid).get().then((snapshot) => snapshot.docs.forEach((document) {
-     print(document.reference);
-     docIDs.add(document.reference.id);
-    }),);
-  }*/
+ 
    final User user = FirebaseAuth.instance.currentUser!;
   List<String> docIDs = [];
   String collection = '';
@@ -108,21 +91,7 @@ class _MyMedFileState extends State<MyMedFile> {
                           ),
                         ),
                                 
-                                /*FutureBuilder(
-                                  future: getDocId(),
-                                  builder:(context, snapshot) {
-                                    return ListView.builder(
-                                      itemCount: docIDs.length,
-                                      itemBuilder:(context,index){
-                                     return ListTile(
-                                       title: GetUser(documentId: docIDs[index]),
-                                     );
-                                   } ,
-                                      
-                                    );
-                    
-                                    
-                                  },),*/
+                            
                               
                     ],),
                   ),

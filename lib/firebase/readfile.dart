@@ -178,7 +178,7 @@ class GetUser extends StatelessWidget {
         return Text('loading..');
   }),
       future: FirebaseFirestore.instance.collection(collection).doc(documentId).get(),
-       // FirebaseFirestore.instance.collection('users').doc(documentId).get(),
+      
     );
   }
 }
