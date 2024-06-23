@@ -12,17 +12,29 @@ class Data {
         return 'User not authenticated';
       }
 
-      QuerySnapshot<Map<String, dynamic>> snapshot = await _db
+      
+      QuerySnapshot<Map<String, dynamic>> userSnapshot = await _db
           .collection('users')
           .where('user', isEqualTo: user.uid)
           .get();
 
-      if (snapshot.docs.isNotEmpty) {
-       String message = snapshot.docs.first.data()['name'] ?? 'No name found';
+      if (userSnapshot.docs.isNotEmpty) {
+        String message = userSnapshot.docs.first.data()['name'] ?? 'No name found';
         return '$message!';
-      } else {
-        return 'Document does not exist';
-      }
+      } 
+
+      
+      QuerySnapshot<Map<String, dynamic>> doctorSnapshot = await _db
+          .collection('doctors')
+          .where('user', isEqualTo: user.uid)
+          .get();
+
+      if (doctorSnapshot.docs.isNotEmpty) {
+        String message = doctorSnapshot.docs.first.data()['name'] ?? 'No name found';
+        return '$message!';
+      } 
+
+      return 'Document does not exist';
     } catch (e) {
       print('Error fetching message: $e');
       return 'Failed to fetch message';
