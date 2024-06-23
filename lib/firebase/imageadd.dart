@@ -51,26 +51,34 @@ class StoreData {
       User? user = _auth.currentUser;
 
       if (user != null) {
-        DocumentReference docRef = _firestore.collection('users').doc(user.uid);
+        // Check in 'users' collection
+        DocumentReference userDocRef = _firestore.collection('users').doc(user.uid);
+        DocumentSnapshot userDocSnapshot = await userDocRef.get();
 
-        DocumentSnapshot docSnapshot = await docRef.get();
-
-        if (docSnapshot.exists) {
-          print('Document exists, updating...'); // Debug print
-          await docRef.update({
+        if (userDocSnapshot.exists){
+         await userDocRef.update({
             'imageLink': imageUrl,
           });
-          // Save the new image link to SharedPreferences
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString("imageLink", imageUrl);
-
           response = 'success';
         } else {
-          print('No document found for current user.');
-          response = 'No document found for current user.';
+          // Check in 'doctors' collection
+          DocumentReference doctorDocRef = _firestore.collection('doctors').doc(user.uid);
+          DocumentSnapshot doctorDocSnapshot = await doctorDocRef.get();
+
+          if (doctorDocSnapshot.exists) {
+            await doctorDocRef.update({
+              'imageLink': imageUrl,
+            });
+            response = 'success';
+          } else {
+            response = 'No document found for current user.';
+          }
         }
+
+        // Save the new image link to SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString("imageLink", imageUrl);
       } else {
-        print('No user is currently signed in.');
         response = 'No user is currently signed in.';
       }
     } catch (err) {

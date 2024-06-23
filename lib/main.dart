@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -39,24 +40,34 @@ class MyApp extends StatelessWidget{
           visualDensity: VisualDensity.adaptivePlatformDensity,
            textTheme: GoogleFonts.manropeTextTheme(),
         ),
-     home: Scaffold(
-  body: StreamBuilder<User?>(
-    stream: AuthService().firebaseAuth.authStateChanges(),
-    builder: (context, AsyncSnapshot<User?> snapshot) {
-      if (snapshot.hasData) {
-        return MyBackgroundHome(child:MyHome() ) ;
-      }
-      return MyBackground(
-        child: const MyLogin(),
-      );
-    },
-  ),
-),
-
-        
+     home: StreamBuilder<List<ConnectivityResult>>(
+       stream: Connectivity().onConnectivityChanged,
+       builder: (context, snapshot) {
+           if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (snapshot.hasData) {
+              return Scaffold(
+                body: StreamBuilder<User?>(
+                  stream: AuthService().firebaseAuth.authStateChanges(),
+                  builder: (context, AsyncSnapshot<User?> snapshot) {
+                    if (snapshot.hasData) {
+                      return MyBackgroundHome(child: MyHome());
+                    } else {
+                      return MyBackground(
+                        child: const MyLogin(),
+                      );
+                    }
+                  },
+                ),
+              );
+            } else {
+              return Center(child: Text('No connection state detected'));
+            }
+          },
         ),
-      
+      ),
     );
   }
 }
-

@@ -7,8 +7,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sante_en_poche/constant/background/back.dart';
 import 'package:sante_en_poche/firebase/dataRetrieve.dart';
 import 'package:sante_en_poche/firebase/imageadd.dart';
+import 'package:sante_en_poche/screens/appointement/category/general.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -146,7 +148,13 @@ class _MyMainPageState extends State<MyMainPage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        
+                         Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const Back(useAppBar: true,child: MyMedG(),),
+                              ),
+                            );
                       },
                       child: Container(
                         height: 90.h,
