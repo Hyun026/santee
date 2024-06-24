@@ -1,4 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sante_en_poche/connection/serviceConn.dart';
 
 import 'package:sante_en_poche/constant/background/background.dart';
 import 'package:sante_en_poche/constant/background/backgroundhome.dart';
@@ -19,14 +19,20 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+
+  Get.put(NetworkManager());
+
+
+  bool isConnected = await NetworkManager.instance.isConnected();
+  
+  runApp(MyApp(isConnected: isConnected));
 }
 
+class MyApp extends StatelessWidget {
+  final bool isConnected;
 
-class MyApp extends StatelessWidget{
-  const MyApp({super.key});
+  const MyApp({super.key, required this.isConnected});
 
   @override
   Widget build(BuildContext context) {
@@ -38,35 +44,42 @@ class MyApp extends StatelessWidget{
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
-           textTheme: GoogleFonts.manropeTextTheme(),
+          textTheme: GoogleFonts.manropeTextTheme(),
         ),
-     home: StreamBuilder<List<ConnectivityResult>>(
-       stream: Connectivity().onConnectivityChanged,
-       builder: (context, snapshot) {
-           if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (snapshot.hasData) {
-              return Scaffold(
-                body: StreamBuilder<User?>(
-                  stream: AuthService().firebaseAuth.authStateChanges(),
-                  builder: (context, AsyncSnapshot<User?> snapshot) {
-                    if (snapshot.hasData) {
-                      return MyBackgroundHome(child: MyHome());
-                    } else {
-                      return MyBackground(
-                        child: const MyLogin(),
-                      );
-                    }
-                  },
-                ),
-              );
-            } else {
-              return Center(child: Text('No connection state detected'));
-            }
-          },
-        ),
+        home: isConnected ? MainScreen() : NoConnectionScreen(),
+      ),
+    );
+  }
+}
+
+class MainScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: StreamBuilder<User?>(
+        stream: AuthService().firebaseAuth.authStateChanges(),
+        builder: (context, AsyncSnapshot<User?> snapshot) {
+          if (snapshot.hasData) {
+            return MyBackgroundHome(child: MyHome());
+          }
+          return MyBackground(
+            child: const MyLogin(),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class NoConnectionScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('No Connection'),
+      ),
+      body: Center(
+        child: Text('No internet connection. Please check your connection.'),
       ),
     );
   }
