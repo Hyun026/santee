@@ -1,4 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sante_en_poche/connection/serviceConn.dart';
@@ -18,9 +17,12 @@ class ConnectivityCheckPage extends StatelessWidget {
             WidgetsBinding.instance.addPostFrameCallback((_) async {
               bool connected = await controller.isConnected();
               if (connected) {
-                Get.off(() => MainScreen());
-              } else {
-                Get.off(() => NoConnectionScreen());
+                Get.to(() => MainScreen());
+              }
+              if (!connected) {
+                Get.to(
+                  () => NoConnectionScreen(),
+                );
               }
             });
 
@@ -31,4 +33,3 @@ class ConnectivityCheckPage extends StatelessWidget {
     );
   }
 }
-
