@@ -34,6 +34,7 @@ class NetworkManager extends GetxController {
     _connectionStatus.value = result;
     if (_connectionStatus.value == ConnectivityResult.none) {
       print("No internet connection");
+      //go to a stateless widget
     }
   }
 

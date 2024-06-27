@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sante_en_poche/connection/check.dart';
 import 'package:sante_en_poche/connection/serviceConn.dart';
 
 import 'package:sante_en_poche/constant/background/background.dart';
@@ -23,31 +24,28 @@ Future<void> main() async {
 
   Get.put(NetworkManager());
 
-
-  bool? isConnected = await NetworkManager.instance.isConnected();
   
-  runApp(MyApp(isConnected: isConnected));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final bool isConnected;
-
-const MyApp({Key? key, required this.isConnected}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(428, 926),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: GetMaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          textTheme: GoogleFonts.manropeTextTheme(),
-        ),
-        home: isConnected ? MainScreen() : NoConnectionScreen(),
-      ),
+      builder: (context, child) {
+        return GetMaterialApp(
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            textTheme: GoogleFonts.manropeTextTheme(),
+          ),
+          home: child,
+        );
+      },
+      child: ConnectivityCheckPage(),
     );
   }
 }
@@ -76,10 +74,13 @@ class NoConnectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('No Connection'),
+        title: Center(child: Text('No Connexion')),
       ),
       body: Center(
-        child: Text('No internet connection. Please check your connection.'),
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Text('Pas de connexion Internet. Veuillez vérifier votre connexion..'),
+        ),
       ),
     );
   }
