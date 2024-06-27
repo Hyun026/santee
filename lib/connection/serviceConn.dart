@@ -19,9 +19,11 @@ class NetworkManager extends GetxController {
 
   Future<void> _initConnectivitySubscription() async {
     try {
-      _connectivitySubscription = _connectivity.onConnectivityChanged.listen((result) {
-        _updateConnectionStatus(result as ConnectivityResult);
-      }) as StreamSubscription<ConnectivityResult>;
+      // _connectivitySubscription =
+      _connectivity.onConnectivityChanged.listen((result) {
+        _updateConnectionStatus(result[0]);
+      });
+      // as StreamSubscription<ConnectivityResult>;
     } catch (e) {
       print('Error initializing connectivity subscription: $e');
     }
