@@ -24,7 +24,7 @@ Future<void> main() async {
   Get.put(NetworkManager());
 
 
-  bool isConnected = await NetworkManager.instance.isConnected();
+  bool? isConnected = await NetworkManager.instance.isConnected();
   
   runApp(MyApp(isConnected: isConnected));
 }
@@ -32,7 +32,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   final bool isConnected;
 
-  const MyApp({super.key, required this.isConnected});
+const MyApp({Key? key, required this.isConnected}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

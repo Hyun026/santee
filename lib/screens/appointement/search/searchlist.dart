@@ -157,29 +157,29 @@ class _MyMainPageState extends State<MyMainPage> {
                             );
                       },
                       child: Container(
-                        height: 90.h,
-                        width: size.width*0.45,
-                        child: Stack(
-                          children: [
-                            SvgPicture.asset('assets/images/search/Rectangle.svg'),
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Center(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset('assets/images/search/doc.svg'),
-                                    SizedBox(width: 15.w,),
-                                    Column(children: [
-                                      Text('Médecin' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 20.sp, fontWeight: FontWeight.bold),),
-                                      Text('Générale' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 20.sp, fontWeight: FontWeight.bold),),
-                                    ],),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,),
+                borderRadius: BorderRadius.circular(20),
+                        ),
+                        height: size.height*0.08,
+                        width: size.width*0.43,
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset('assets/images/search/doc.svg', width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.contain,),
+                              SizedBox(width: 15.w,),
+                              Column(children: [
+                                Text('Médecin' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 18.sp, fontWeight: FontWeight.bold),),
+                                Text('Générale' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 18.sp, fontWeight: FontWeight.bold),),
+                              ],),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -188,26 +188,27 @@ class _MyMainPageState extends State<MyMainPage> {
                         
                       },
                       child: Container(
-                        height: 90.h,
-                        width: size.width*0.45,
-                        child: Stack(
-                          children: [
-                            SvgPicture.asset('assets/images/search/Rectangle.svg'),
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Center(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset('assets/images/search/baby-boy.svg', height: 50.h,width: 30.w,),
-                                    SizedBox(width: 15.w,),
-                                    Text('Pédiatrie' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 20.sp, fontWeight: FontWeight.bold),),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
+                         decoration: BoxDecoration(
+                          gradient: LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,),
+                borderRadius: BorderRadius.circular(20),
+                        ),
+                        height: size.height*0.08,
+                        width: size.width*0.43,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset('assets/images/search/baby-boy.svg', height: 50.h,width: 30.w,),
+                                SizedBox(width: 8.w,),
+                                Text('Pédiatrie' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     )
