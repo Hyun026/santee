@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sante_en_poche/connection/check.dart';
-import 'package:sante_en_poche/connection/serviceConn.dart';
+
 
 import 'package:sante_en_poche/constant/background/background.dart';
 import 'package:sante_en_poche/constant/background/backgroundhome.dart';
@@ -22,7 +22,7 @@ Future<void> main() async {
   ]);
   await Firebase.initializeApp();
 
-  Get.put(NetworkManager());
+
 
   
   runApp(MyApp());
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: ConnectivityCheckPage(),
+      child: const connectCheck(),
     );
   }
 }

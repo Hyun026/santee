@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//show doc from general field
 class MyMedG extends StatefulWidget {
   const MyMedG({super.key});
 
