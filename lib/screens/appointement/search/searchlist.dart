@@ -108,10 +108,10 @@ class _MyMainPageState extends State<MyMainPage> {
                                       fit: BoxFit.cover,
                                     )
                                   : null,
-                          border: Border.all(color: Colors.grey, width: 2), // Optional: Add border
+                          border: Border.all(color: Colors.grey, width: 2), 
                         ),
                         child: image == null && image1.isEmpty
-                            ? Center(child: Icon(Icons.person, size: 50))
+                            ? const Center(child: Icon(Icons.person, size: 50))
                             : null,
                       ),
                     ),
@@ -123,7 +123,7 @@ class _MyMainPageState extends State<MyMainPage> {
                       future: Data().getMessage(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         } else if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
                         } else {
@@ -148,9 +148,9 @@ class _MyMainPageState extends State<MyMainPage> {
               Container(
                   
                 width: MediaQuery.of(context).size.width * 0.9,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(  topLeft: Radius.circular(30.0),
-    topRight: Radius.circular(30.0),),
+    topRight: Radius.circular(30.0),bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20)),
                   color: MyColors.navy
                 ),
                   child: Column(
@@ -161,7 +161,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const Back(useAppBar: true,child: MySearch(),),
+                                      const Back(useAppBar: false,child: MySearch(),),
                                 ),
                               );
                         },
@@ -190,7 +190,9 @@ class _MyMainPageState extends State<MyMainPage> {
                       ),
                       // to be worked on later
                       Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(  bottomRight: Radius.circular(30.0),
+    bottomLeft: Radius.circular(30.0),),
                           color: MyColors.navy
                         ),
                             height: MediaQuery.of(context).size.height * 0.05,
@@ -222,7 +224,7 @@ class _MyMainPageState extends State<MyMainPage> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
+                            gradient: const LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,),
                   borderRadius: BorderRadius.circular(20),
@@ -241,8 +243,8 @@ class _MyMainPageState extends State<MyMainPage> {
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                  Text('Médecine' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
-                                  Text('Générale' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                  Text('Médecine' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                  Text('Générale' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
                                 ],),
                               ],
                             ),
@@ -255,7 +257,7 @@ class _MyMainPageState extends State<MyMainPage> {
                         },
                         child: Container(
                            decoration: BoxDecoration(
-                            gradient: LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
+                            gradient: const LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,),
                   borderRadius: BorderRadius.circular(20),
@@ -271,7 +273,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                 children: [
                                   SvgPicture.asset('assets/images/search/baby-boy.svg', height: 40.h,width: 40.w,),
                                   SizedBox(width: 8.w,),
-                                  Text('Pédiatrie' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                  Text('Pédiatrie' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
                                 ],
                               ),
                             ),
@@ -293,7 +295,7 @@ class _MyMainPageState extends State<MyMainPage> {
                        height: size.height*0.08,
                           width: size.width*0.43,
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
+                              gradient: const LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,),
                   borderRadius: BorderRadius.circular(20),
@@ -307,7 +309,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                 children: [
                                   SvgPicture.asset('assets/images/search/fracture.svg',height: 40.h,width: 40.w,),
                                   SizedBox(width: 8.w,),
-                                  Text('Orthopédie' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                  Text('Orthopédie' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
                                 ],
                               ),
                             ),
@@ -322,7 +324,7 @@ class _MyMainPageState extends State<MyMainPage> {
                            height: size.height*0.08,
                           width: size.width*0.43,
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
+                              gradient: const LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,),
                   borderRadius: BorderRadius.circular(20),
@@ -336,7 +338,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                 children: [
                                   SvgPicture.asset('assets/images/search/skin.svg', width: 40.w,height: 40.h,),
                                   SizedBox(width: 5.w,),
-                                  Text('Dermatologie' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                  Text('Dermatologie' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
                                 ],
                               ),
                             ),
@@ -358,7 +360,7 @@ class _MyMainPageState extends State<MyMainPage> {
                            height: size.height*0.08,
                           width: size.width*0.43,
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
+                              gradient: const LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,),
                   borderRadius: BorderRadius.circular(20),
@@ -372,7 +374,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                 children: [
                                   SvgPicture.asset('assets/images/search/eye.svg',height: 25.h,width: 25.w, fit: BoxFit.contain,),
                                   SizedBox(width: 15.w,),
-                                  Text('Ophtalmologie' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                  Text('Ophtalmologie' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
                                 ],
                               ),
                             ),
@@ -387,7 +389,7 @@ class _MyMainPageState extends State<MyMainPage> {
                            height: size.height*0.08,
                           width: size.width*0.43,
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
+                              gradient: const LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,),
                   borderRadius: BorderRadius.circular(20),
@@ -399,7 +401,7 @@ class _MyMainPageState extends State<MyMainPage> {
                               children: [
                                 SvgPicture.asset('assets/images/search/breath.svg', width: 30.w,height: 30.h,),
                                 SizedBox(width: 15.w,),
-                                Text('Pneumologie' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                Text('Pneumologie' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
                               ],
                             ),
                           ),
@@ -420,7 +422,7 @@ class _MyMainPageState extends State<MyMainPage> {
                           height: size.height*0.08,
                           width: size.width*0.43,
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
+                              gradient: const LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,),
                   borderRadius: BorderRadius.circular(20),
@@ -434,7 +436,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                 children: [
                                   SvgPicture.asset('assets/images/search/heart.svg',width: 30.w,height: 30.w,),
                                   SizedBox(width: 15.w,),
-                                  Text('Cardiologie' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                  Text('Cardiologie' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
                                 ],
                               ),
                             ),
@@ -449,7 +451,7 @@ class _MyMainPageState extends State<MyMainPage> {
                            height: size.height*0.08,
                           width: size.width*0.43,
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
+                              gradient: const LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,),
                   borderRadius: BorderRadius.circular(20),
@@ -464,8 +466,8 @@ class _MyMainPageState extends State<MyMainPage> {
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                  Text('Gastro-' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
-                                  Text('entérologie' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                  Text('Gastro-' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                  Text('entérologie' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
                                 ],),
                               ],
                             ),
@@ -487,7 +489,7 @@ class _MyMainPageState extends State<MyMainPage> {
                         height: size.height*0.08,
                           width: size.width*0.43,
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
+                              gradient: const LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,),
                   borderRadius: BorderRadius.circular(20),
@@ -502,8 +504,8 @@ class _MyMainPageState extends State<MyMainPage> {
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                  Text('Médecine' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
-                                  Text('Dentaire' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                  Text('Médecine' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                  Text('Dentaire' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
                                 ],),
                               ],
                             ),
@@ -518,7 +520,7 @@ class _MyMainPageState extends State<MyMainPage> {
                            height: size.height*0.08,
                           width: size.width*0.43,
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
+                              gradient: const LinearGradient(colors:[Color(0xffD0E0FC), Colors.white],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,),
                   borderRadius: BorderRadius.circular(20),
@@ -532,7 +534,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                 children: [
                                   SvgPicture.asset('assets/images/search/brain.svg'),
                                   SizedBox(width: 15.w,),
-                                  Text('Neurologie' , style:  TextStyle(color: Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
+                                  Text('Neurologie' , style:  TextStyle(color: const Color(0xff0074AF), fontSize: 17.sp, fontWeight: FontWeight.bold),),
                                 ],
                               ),
                             ),

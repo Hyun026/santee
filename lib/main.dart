@@ -69,19 +69,3 @@ class MainScreen extends StatelessWidget {
   }
 }
 
-class NoConnectionScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text('No Connexion')),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Text('Pas de connexion Internet. Veuillez vérifier votre connexion..'),
-        ),
-      ),
-    );
-  }
-}
