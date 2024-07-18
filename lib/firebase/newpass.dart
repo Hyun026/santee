@@ -50,7 +50,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
     }
     return isValid;
   }
-
+/*
   Future<bool> isEmailRegistered(String email) async {
   try {
     // Get a reference to the users node in the database
@@ -77,5 +77,5 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
     print('Error occurred while checking email existence: $e');
     return false;
   }
-  }
+  }*/
 }
