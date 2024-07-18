@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/date_symbol_data_file.dart';
+
 import 'package:sante_en_poche/connection/check.dart';
 
 
@@ -17,6 +19,9 @@ import 'package:sante_en_poche/screens/login/login.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);

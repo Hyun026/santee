@@ -15,7 +15,7 @@ import 'package:sante_en_poche/screens/appointement/search/searchPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-
+//main page
 class MyMainPage extends StatefulWidget {
   const MyMainPage({super.key});
 

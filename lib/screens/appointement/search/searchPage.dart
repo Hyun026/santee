@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sante_en_poche/constant/background/back.dart';
+import 'package:sante_en_poche/screens/appointement/search/booking.dart';
 import 'package:sante_en_poche/screens/appointement/search/docBook.dart';
 
 class MySearch extends StatefulWidget {
@@ -13,7 +15,6 @@ class _MySearchState extends State<MySearch> {
   List<Map<String, dynamic>> allResults = [];
   List<Map<String, dynamic>> resultList = [];
   final TextEditingController searchController = TextEditingController();
-  String? selectedAddress;
   String? selectedField;
 
   @override
@@ -44,7 +45,9 @@ class _MySearchState extends State<MySearch> {
     if (searchController.text.isNotEmpty) {
       for (var clientSnapshot in allResults) {
         var name = clientSnapshot['name'].toString().toLowerCase();
-        if (name.contains(searchController.text.toLowerCase())) {
+        var lastname = clientSnapshot['lastname'].toString().toLowerCase();
+        if (name.contains(searchController.text.toLowerCase()) ||
+            lastname.contains(searchController.text.toLowerCase())) {
           showResults.add(clientSnapshot);
         }
       }
@@ -70,13 +73,6 @@ class _MySearchState extends State<MySearch> {
   void filterResults() {
     List<Map<String, dynamic>> filteredList = allResults;
 
-    if (selectedAddress != null && selectedAddress!.isNotEmpty) {
-      filteredList = filteredList.where((doctor) {
-        String address = doctor['city'].toLowerCase();
-        return address.contains(selectedAddress!.toLowerCase());
-      }).toList();
-    }
-
     if (selectedField != null && selectedField!.isNotEmpty) {
       filteredList = filteredList.where((doctor) {
         String field = doctor['field'].toLowerCase();
@@ -91,13 +87,13 @@ class _MySearchState extends State<MySearch> {
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        backgroundColor:Colors.blue,
+        backgroundColor: Colors.blue,
         title: TextField(
           controller: searchController,
           decoration: const InputDecoration(
-            hintText: 'Chercher par nom...',
+            hintText: 'Search by name or lastname...',
             border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
           ),
@@ -125,7 +121,7 @@ class _MySearchState extends State<MySearch> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MyResult(doctorDetails: resultList[index]),
+                  builder: (context) => Back(useAppBar: true,child: MyBooking(doctorDetails: resultList[index])),
                 ),
               );
             },
@@ -147,24 +143,6 @@ class _MySearchState extends State<MySearch> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   DropdownButton<String>(
-                    hint: const Text('Select City'),
-                    value: selectedAddress,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedAddress = newValue;
-                      });
-                      filterResults();
-                      Navigator.pop(context);
-                    },
-                    items: <String>['Tanger', 'Tetouan', "Casablanca","Rabat","Hoceima","Oujda","Agadir","Fes","Marrakech"]
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                  DropdownButton<String>(
                     hint: const Text('Select Field'),
                     value: selectedField,
                     onChanged: (String? newValue) {
@@ -174,7 +152,7 @@ class _MySearchState extends State<MySearch> {
                       filterResults();
                       Navigator.pop(context);
                     },
-                    items: <String>['Pediatrician', 'Dermatologist','General','Cardiologist','Dentist','Endocrinologist','Nephrologist','Neurology','Ophthalmology','Orthopedics','Pathology','Pulmonology']
+                    items: <String>['Pediatrician', 'Dermatologist', 'General', 'Cardiologist', 'Dentist', 'Endocrinologist', 'Nephrologist', 'Neurology', 'Ophthalmology', 'Orthopedics', 'Pathology', 'Pulmonology']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
