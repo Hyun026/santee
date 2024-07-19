@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "D:/DEVCORP PROJECT/santee/linux"
+    "cmake.sourceDirectory": "D:/DEVCORP PROJECT/santee/linux",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

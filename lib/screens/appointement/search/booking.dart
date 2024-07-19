@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:intl/date_symbol_data_file.dart';
-import 'package:intl/intl.dart';
+
 import 'package:sante_en_poche/constant/colors/colors.dart';
 
 class MyBooking extends StatefulWidget {
@@ -18,8 +16,10 @@ class MyBooking extends StatefulWidget {
 class _MyBookingState extends State<MyBooking> {
   final User? user = FirebaseAuth.instance.currentUser;
  //calendar
+  late TextEditingController _dateController;
+ 
 
-    DateTime _currentDate = DateTime.now();
+  DateTime _currentDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
   DateTime _displayedDate = DateTime.now();
 
@@ -32,6 +32,13 @@ class _MyBookingState extends State<MyBooking> {
   ];
   final List<int> _years = List.generate(10, (index) => DateTime.now().year - 5 + index);
 
+  @override
+  void initState() {
+    super.initState();
+    _dateController = TextEditingController();
+     selectedTimeController.text = selectedTime;
+  }
+
   List<DateTime> _getWeekDates(DateTime date) {
     DateTime firstDayOfWeek = date.subtract(Duration(days: date.weekday - 1));
     return List.generate(7, (index) => firstDayOfWeek.add(Duration(days: index)));
@@ -40,6 +47,7 @@ class _MyBookingState extends State<MyBooking> {
   void _onDateSelected(DateTime date) {
     setState(() {
       _selectedDate = date;
+      _dateController.text = date.toIso8601String(); // Update the controller
     });
   }
 
@@ -55,6 +63,18 @@ class _MyBookingState extends State<MyBooking> {
   String _formatMonthYear(DateTime date) {
     return '${_months[date.month - 1]} ${date.year}';
   }
+
+//hour
+ List<String> times = [
+    "10:00", "10:45", "11:30", "12:15", "13:00",
+    "14:00", "14:30", "15:00", "15:30", "16:00"
+  ];
+
+  String selectedTime = "10:45";
+  TextEditingController selectedTimeController = TextEditingController();
+
+ 
+  
 
  Future<String> getCurrentUserName() async {
   User? user = FirebaseAuth.instance.currentUser;
@@ -83,13 +103,12 @@ Future<String> getCurrentImage() async {
   Widget build(BuildContext context) {
    
     Size size = MediaQuery.of(context).size;
-   final weekDates = _getWeekDates(_displayedDate);
-    final monthYear = _formatMonthYear(_displayedDate);
+      List<DateTime> weekDates = _getWeekDates(_displayedDate);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-            SizedBox(height: size.height*0.16,),
+            SizedBox(height: size.height*0.232,),
             Stack(
               children: [
                 Align(
@@ -97,96 +116,113 @@ Future<String> getCurrentImage() async {
                    child: Padding(padding: const EdgeInsets.only(top: 30),
                    child:Container(
                      width: size.width * 1,
-                    height: size.height * 0.70,
+                    height: size.height * 0.73,
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(75.0),
                       ),
                     ),
-                    child:  Padding(
-  padding: const EdgeInsets.only(left: 50),
-  child: Column(
-    mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.start, 
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      const Row(
-        children: [
-          Icon(Icons.today, color: MyColors.navy),
-          SizedBox(width: 10),
-          Text('Rendez-vous', style: TextStyle(color: MyColors.navy)),
-        ],
-      ),
-      const SizedBox(height: 10),
-      const Text(
-        "Masahaty Derb Sultan",
-        style: TextStyle(color: MyColors.deepGrey, fontSize: 20,fontWeight: FontWeight.bold),
-      ),
-      // map
-    Row(
-  children: [
-    const Icon(Icons.place, color: MyColors.lightGrey),
-    const SizedBox(width: 8.0), 
-    Text(
-      widget.doctorDetails['address'] ?? "No address available.",
-      style: TextStyle(fontSize: 16.sp, color: Colors.black54),
-    ),
-    //calendar
-       Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: DropdownButton<String>(
-                value: monthYear,
-                items: _years.expand((int year) {
-                  return _months.map((String month) {
-                    return DropdownMenuItem<String>(
-                      value: '$month $year',
-                      child: Text('$month $year'),
-                    );
-                  }).toList();
-                }).toList(),
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    _updateDisplayedDate(newValue);
-                  }
-                },
-              ),
-            ),
-            Flexible(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(7, (index) {
-                  final date = weekDates[index];
-                  final isSelected = date.day == _selectedDate.day &&
+                    child:  Column(
+                      children: [
+                        const SizedBox(height: 90,),
+                        SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start, 
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                            
+                                const Row(
+                                  children: [
+                                    Icon(Icons.today, color: MyColors.navy),
+                                    SizedBox(width: 10),
+                                    Text('Rendez-vous', style: TextStyle(color: MyColors.navy)),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                const Text(
+                                  "Masahaty Derb Sultan",
+                                  style: TextStyle(color: MyColors.deepGrey, fontSize: 20,fontWeight: FontWeight.bold),
+                                ),
+                                // map
+                              Row(
+                            children: [
+                              const Icon(Icons.place, color: MyColors.lightGrey),
+                              const SizedBox(width: 8.0), 
+                              Text(
+                                widget.doctorDetails['address'] ?? "No address available.",
+                                style: TextStyle(fontSize: 16.sp, color: Colors.black54),
+                              ),
+                             
+                            ],
+                            ),
+                            //calendar
+                           Align(
+                                    alignment: Alignment.topLeft,
+                                    child: DropdownButton<String>(
+                                      value: _formatMonthYear(_displayedDate),
+                                      items: _years.expand((int year) {
+                                        return _months.map((String month) {
+                                          return DropdownMenuItem<String>(
+                                            value: '$month $year',
+                                            child: Text(
+                          '$month $year',
+                          style: const TextStyle(
+                            color: MyColors.deepGrey,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                                            ),
+                                          );
+                                        }).toList();
+                                      }).toList(),
+                                      onChanged: (String? newValue) {
+                                        if (newValue != null) {
+                                          _updateDisplayedDate(newValue);
+                                        }
+                                      },
+                                      underline: const SizedBox(),
+                                      iconEnabledColor: MyColors.CalendarDropDown,
+                                    ),
+                                  ),
+                            
+                                     Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: List.generate(7, (index) {
+                                      final date = weekDates[index];
+                                      final isSelected = date.day == _selectedDate.day &&
                                      date.month == _selectedDate.month &&
                                      date.year == _selectedDate.year;
-                  final isToday = date.day == _currentDate.day &&
+                                      final isToday = date.day == _currentDate.day &&
                                   date.month == _currentDate.month &&
                                   date.year == _currentDate.year;
-
-                  return GestureDetector(
-                    onTap: () => _onDateSelected(date),
-                    child: Container(
-                      margin: EdgeInsets.all(4),
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: isSelected 
-                            ? Colors.blue 
+                          
+                                      return GestureDetector(
+                                        onTap: () => _onDateSelected(date),
+                                        child: Container(
+                                          margin: const EdgeInsets.all(4),
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: isSelected 
+                            ? MyColors.CalendarChoosen
                             : isToday 
-                                ? Colors.green 
-                                : Colors.grey[300],
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        children: [
+                                ? MyColors.CalendarToday
+                                : MyColors.calendarGrey, 
+                                            shape: BoxShape.rectangle,
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          child: Column(
+                                            children: [
                           Text(
                             _daysOfWeek[index % 7],
                             style: TextStyle(
                               color: isSelected || isToday ? Colors.white : Colors.black,
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                             date.day.toString(),
                             style: TextStyle(
@@ -194,21 +230,111 @@ Future<String> getCurrentImage() async {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                  ),
+                              Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Heures de visites",
+                                style: TextStyle(
+                                  color: MyColors.deepGrey,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 10), 
+                              Wrap(
+                                spacing: 10,  
+                                runSpacing: 10,  
+                                children: List.generate(times.length, (index) {
+                                  return SizedBox(
+                                    width: (MediaQuery.of(context).size.width - 70) / 5,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedTime = times[index];
+                                          selectedTimeController.text = selectedTime;
+                                        });
+                                      },
+                                      child: Container(
+                                        
+                                        height: 30, 
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          color: selectedTime == times[index] ? MyColors.CalendarChoosen : MyColors.CalendarToday,
+                                          borderRadius: BorderRadius.circular(50),
+                                        ),
+                                        child: Text(
+                                          times[index],
+                                          style: TextStyle(
+                                            color: selectedTime == times[index] ? Colors.white : MyColors.navy,
+                                            fontWeight: selectedTime == times[index] ? FontWeight.bold : FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: size.height*0.10,),
+                          //booking button
+                          Center(
+                            child: ElevatedButton(onPressed: ()async {
+                                if (selectedTimeController.text.isEmpty ||
+                                _dateController.text.isEmpty ) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('All fields are required'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }else{
+                                 String userName = await getCurrentUserName();
+                             String userImage = await getCurrentImage();
+                             // get users im
+                               Map<String, dynamic> dataToSave = {
+                                'user': user!.uid,
+                                'date': _dateController.text,
+                                'time': selectedTimeController.text,
+                                'name': userName,
+                                 'Doctor':widget.doctorDetails['user'],
+                                 'Dname':widget.doctorDetails['name'],
+                                 'Dlastname':widget.doctorDetails['lastname'],
+                                 'Dfield':widget.doctorDetails['field'],
+                                 'imageLink':widget.doctorDetails['imageLink'],
+                                 'userImage':userImage,
+                                 
+                              };
 
-            //end of calendar
-  ],
-)
-
-    ],
-  ),
-)
+                             await FirebaseFirestore.instance.collection("appointments").add(dataToSave);
+                              Navigator.pop(context);
+                            } 
+                            
+                            },
+                            style: ElevatedButton.styleFrom(
+                               minimumSize: Size(100.w, 50.h),
+                                 shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  backgroundColor: MyColors.buttonRes,
+                            ),
+                            child: const Text('Réservez un rendez-vous',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),) ),
+                          ),
+                          
+                          
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
 
                    ) ,
                    ),
@@ -258,7 +384,7 @@ Future<String> getCurrentImage() async {
                              height: 10.h,
                            ),
                            const Text('Consultation de spécialité' , style: TextStyle(color: MyColors.navy, fontSize: 17),),
-                           Text('data'),
+                            Text( widget.doctorDetails['phone'] ?? "No phone available.",style: const TextStyle(color: MyColors.hintTextColor),),
                          ],
                        ),
                      ],
@@ -269,5 +395,11 @@ Future<String> getCurrentImage() async {
         ],
       ),
       );
+  }
+   @override
+  void dispose() {
+    _dateController.dispose();
+     selectedTimeController.dispose();
+    super.dispose();
   }
 }

@@ -7,4 +7,9 @@ class MyColors{
   static const Color navy = Color(0xff005C8B);
   static const Color deepGrey = Color(0xff636363);
   static const Color lightGrey = Color(0xffA1A1A1);
+  static const Color calendarGrey = Color (0xffE9E9E9);
+  static const Color CalendarToday = Color(0xffDBF6FC);
+  static const Color CalendarChoosen = Color(0xff0074AF);
+  static const Color CalendarDropDown = Color(0xff35CBCC);
+  static const Color buttonRes = Color(0xff35CBCC);
 }
