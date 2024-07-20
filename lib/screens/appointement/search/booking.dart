@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 import 'package:sante_en_poche/constant/colors/colors.dart';
 
@@ -17,6 +18,10 @@ class _MyBookingState extends State<MyBooking> {
   final User? user = FirebaseAuth.instance.currentUser;
  //calendar
   late TextEditingController _dateController;
+  final TextEditingController _weekdayController = TextEditingController();
+   TextEditingController timeDifferenceController = TextEditingController();
+   late TextEditingController timeDifferenceInMinutesController;
+
  
 
   DateTime _currentDate = DateTime.now();
@@ -30,6 +35,17 @@ class _MyBookingState extends State<MyBooking> {
   final List<String> _daysOfWeek = [
     'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'
   ];
+
+   final Map<String, String> _weekdayNames = {
+  'Lun': 'Lundi',
+  'Mar': 'Mardi',
+  'Mer': 'Mercredi',
+  'Jeu': 'Jeudi',
+  'Ven': 'Vendredi',
+  'Sam': 'Samedi',
+  'Dim': 'Dimanche'
+};
+
   final List<int> _years = List.generate(10, (index) => DateTime.now().year - 5 + index);
 
   @override
@@ -37,6 +53,8 @@ class _MyBookingState extends State<MyBooking> {
     super.initState();
     _dateController = TextEditingController();
      selectedTimeController.text = selectedTime;
+      timeDifferenceController = TextEditingController();
+ timeDifferenceInMinutesController = TextEditingController();
   }
 
   List<DateTime> _getWeekDates(DateTime date) {
@@ -47,9 +65,27 @@ class _MyBookingState extends State<MyBooking> {
   void _onDateSelected(DateTime date) {
     setState(() {
       _selectedDate = date;
-      _dateController.text = date.toIso8601String(); // Update the controller
+      _dateController.text = date.toIso8601String(); 
+      final index = (date.weekday - 1) % 7; 
+  final shortWeekday = _daysOfWeek[index];
+  final fullWeekday = _weekdayNames[shortWeekday] ?? shortWeekday; 
+  _weekdayController.text = fullWeekday;
+    _updateDateDifference();
+      
     });
   }
+
+  void _onNewTimeChanged(String newTime) {
+  setState(() {
+    _updateTimeDifference(newTime);
+  });
+}
+
+
+  final List<DateTime> weekDates = List.generate(7, (index) {
+    final now = DateTime.now();
+    return now.add(Duration(days: index - now.weekday % 7));
+  });
 
   void _updateDisplayedDate(String newValue) {
     final parts = newValue.split(' ');
@@ -72,9 +108,36 @@ class _MyBookingState extends State<MyBooking> {
 
   String selectedTime = "10:45";
   TextEditingController selectedTimeController = TextEditingController();
+  TextEditingController newTimeController = TextEditingController();
 
  
-  
+  //calculate diff
+  void _updateDateDifference() {
+  final difference = _selectedDate.difference(_currentDate).inDays;
+  timeDifferenceController.text = '$difference jours';
+}
+
+void _updateTimeDifference(String newTime) {
+  final selectedTimeDateTime = DateTime(
+    _selectedDate.year,
+    _selectedDate.month,
+    _selectedDate.day,
+    int.parse(selectedTime.split(':')[0]),
+    int.parse(selectedTime.split(':')[1]),
+  );
+
+  final newTimeDateTime = DateTime(
+    _selectedDate.year,
+    _selectedDate.month,
+    _selectedDate.day,
+    int.parse(newTime.split(':')[0]),
+    int.parse(newTime.split(':')[1]),
+  );
+
+  final difference = newTimeDateTime.difference(selectedTimeDateTime).inMinutes;
+  timeDifferenceInMinutesController.text = '$difference minutes'; 
+}
+
 
  Future<String> getCurrentUserName() async {
   User? user = FirebaseAuth.instance.currentUser;
@@ -258,7 +321,11 @@ Future<String> getCurrentImage() async {
                                       onTap: () {
                                         setState(() {
                                           selectedTime = times[index];
-                                          selectedTimeController.text = selectedTime;
+                DateTime parsedTime = DateFormat("HH:mm").parse(selectedTime);
+                DateTime newTime = parsedTime.add(Duration(minutes: 45));
+                String formattedNewTime = DateFormat("HH:mm").format(newTime);
+                selectedTimeController.text = selectedTime;
+                newTimeController.text = formattedNewTime;
                                         });
                                       },
                                       child: Container(
@@ -298,7 +365,7 @@ Future<String> getCurrentImage() async {
                             }else{
                                  String userName = await getCurrentUserName();
                              String userImage = await getCurrentImage();
-                             // get users im
+                             //give me a string equal 45 mins
                                Map<String, dynamic> dataToSave = {
                                 'user': user!.uid,
                                 'date': _dateController.text,
@@ -309,7 +376,12 @@ Future<String> getCurrentImage() async {
                                  'Dlastname':widget.doctorDetails['lastname'],
                                  'Dfield':widget.doctorDetails['field'],
                                  'imageLink':widget.doctorDetails['imageLink'],
+                                 'to': newTimeController.text,
+                                 'durée':'45 mins',
+                                 'weekdate':_weekdayController.text,
                                  'userImage':userImage,
+                                 'resteDate':timeDifferenceController.text,
+                                 'resteTime': timeDifferenceInMinutesController.text,
                                  
                               };
 
@@ -400,6 +472,7 @@ Future<String> getCurrentImage() async {
   void dispose() {
     _dateController.dispose();
      selectedTimeController.dispose();
+      _weekdayController.dispose(); 
     super.dispose();
   }
 }

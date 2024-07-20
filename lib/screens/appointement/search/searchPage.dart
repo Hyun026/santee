@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sante_en_poche/constant/background/back.dart';
 import 'package:sante_en_poche/screens/appointement/search/booking.dart';
-import 'package:sante_en_poche/screens/appointement/search/docBook.dart';
 
 class MySearch extends StatefulWidget {
   const MySearch({super.key});
