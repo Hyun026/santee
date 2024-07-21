@@ -18,15 +18,19 @@ class _MyBookingState extends State<MyBooking> {
   final User? user = FirebaseAuth.instance.currentUser;
  //calendar
   late TextEditingController _dateController;
-  final TextEditingController _weekdayController = TextEditingController();
+ late TextEditingController _weekdayController;
    TextEditingController timeDifferenceController = TextEditingController();
    late TextEditingController timeDifferenceInMinutesController;
+    TextEditingController combineController = TextEditingController();
+  TextEditingController restyController = TextEditingController();
+
 
  
 
   DateTime _currentDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
   DateTime _displayedDate = DateTime.now();
+   List<DateTime> weekDates = [];
 
   final List<String> _months = [
     'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 
@@ -55,6 +59,8 @@ class _MyBookingState extends State<MyBooking> {
      selectedTimeController.text = selectedTime;
       timeDifferenceController = TextEditingController();
  timeDifferenceInMinutesController = TextEditingController();
+    _weekdayController = TextEditingController();
+       _updateWeekDates(_displayedDate);
   }
 
   List<DateTime> _getWeekDates(DateTime date) {
@@ -64,8 +70,8 @@ class _MyBookingState extends State<MyBooking> {
 
   void _onDateSelected(DateTime date) {
     setState(() {
-      _selectedDate = date;
-      _dateController.text = date.toIso8601String(); 
+      _selectedDate = DateTime(date.year, date.month, date.day);
+      _dateController.text = _selectedDate.toIso8601String().split('T')[0];
       final index = (date.weekday - 1) % 7; 
   final shortWeekday = _daysOfWeek[index];
   final fullWeekday = _weekdayNames[shortWeekday] ?? shortWeekday; 
@@ -80,13 +86,15 @@ class _MyBookingState extends State<MyBooking> {
     _updateTimeDifference(newTime);
   });
 }
+ void _updateWeekDates(DateTime date) {
+    setState(() {
+      weekDates = _getWeekDates(date);
+    });
+  }
 
 
-  final List<DateTime> weekDates = List.generate(7, (index) {
-    final now = DateTime.now();
-    return now.add(Duration(days: index - now.weekday % 7));
-  });
 
+ 
   void _updateDisplayedDate(String newValue) {
     final parts = newValue.split(' ');
     final month = _months.indexOf(parts[0]) + 1;
@@ -96,9 +104,26 @@ class _MyBookingState extends State<MyBooking> {
     });
   }
 
+
+
   String _formatMonthYear(DateTime date) {
     return '${_months[date.month - 1]} ${date.year}';
   }
+
+  void _nextWeek() {
+    setState(() {
+      _displayedDate = _displayedDate.add(Duration(days: 7));
+      _updateWeekDates(_displayedDate);
+    });
+  }
+
+  void _previousWeek() {
+    setState(() {
+      _displayedDate = _displayedDate.subtract(Duration(days: 7));
+      _updateWeekDates(_displayedDate);
+    });
+  }
+
 
 //hour
  List<String> times = [
@@ -252,53 +277,69 @@ Future<String> getCurrentImage() async {
                                     ),
                                   ),
                             
-                                     Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: List.generate(7, (index) {
-                                      final date = weekDates[index];
-                                      final isSelected = date.day == _selectedDate.day &&
-                                     date.month == _selectedDate.month &&
-                                     date.year == _selectedDate.year;
-                                      final isToday = date.day == _currentDate.day &&
-                                  date.month == _currentDate.month &&
-                                  date.year == _currentDate.year;
-                          
-                                      return GestureDetector(
-                                        onTap: () => _onDateSelected(date),
-                                        child: Container(
-                                          margin: const EdgeInsets.all(4),
-                                          padding: const EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            color: isSelected 
-                            ? MyColors.CalendarChoosen
-                            : isToday 
-                                ? MyColors.CalendarToday
-                                : MyColors.calendarGrey, 
-                                            shape: BoxShape.rectangle,
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          child: Column(
-                                            children: [
-                          Text(
-                            _daysOfWeek[index % 7],
-                            style: TextStyle(
-                              color: isSelected || isToday ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            date.day.toString(),
-                            style: TextStyle(
-                              color: isSelected || isToday ? Colors.white : Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                                  ),
+                               Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: _previousWeek,
+              ),
+              Text(_formatMonthYear(_displayedDate)),
+              IconButton(
+                icon: Icon(Icons.arrow_forward),
+                onPressed: _nextWeek,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: List.generate(7, (index) {
+              final date = weekDates[index];
+              final isSelected = date.day == _selectedDate.day &&
+                  date.month == _selectedDate.month &&
+                  date.year == _selectedDate.year;
+              final isToday = date.day == _currentDate.day &&
+                  date.month == _currentDate.month &&
+                  date.year == _currentDate.year;
+              final isFutureOrToday = date.isAfter(_currentDate) || isToday;
+
+              return GestureDetector(
+                onTap: isFutureOrToday ? () => _onDateSelected(date) : null,
+                child: Container(
+                  margin: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? MyColors.CalendarChoosen 
+                        : isToday
+                        ? MyColors.CalendarToday 
+                        : MyColors.calendarGrey, 
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        _daysOfWeek[index % 7],
+                        style: TextStyle(
+                          color: isSelected || isToday ? Colors.white : Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        date.day.toString(),
+                        style: TextStyle(
+                          color: isSelected || isToday ? Colors.white : Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          ),
+
                               Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -326,6 +367,24 @@ Future<String> getCurrentImage() async {
                 String formattedNewTime = DateFormat("HH:mm").format(newTime);
                 selectedTimeController.text = selectedTime;
                 newTimeController.text = formattedNewTime;
+
+                //combine
+                DateTime combineDateTime = DateTime(
+                          _selectedDate.year,
+                          _selectedDate.month,
+                          _selectedDate.day,
+                          parsedTime.hour,
+                          parsedTime.minute,
+                        );
+                        combineController.text = DateFormat("yyyy-MM-dd HH:mm").format(combineDateTime);
+
+                        // Calculate difference between combineDateTime and current date and time
+                        Duration diff = combineDateTime.difference(DateTime.now());
+                        int days = diff.inDays;
+                        int hours = diff.inHours % 24;
+                        int minutes = diff.inMinutes % 60;
+                        restyController.text = "$days j: $hours h: $minutes min";
+                   
                                         });
                                       },
                                       child: Container(
@@ -350,7 +409,7 @@ Future<String> getCurrentImage() async {
                               ),
                             ],
                           ),
-                          SizedBox(height: size.height*0.10,),
+                          SizedBox(height: size.height*0.05,),
                           //booking button
                           Center(
                             child: ElevatedButton(onPressed: ()async {
@@ -381,7 +440,7 @@ Future<String> getCurrentImage() async {
                                  'weekdate':_weekdayController.text,
                                  'userImage':userImage,
                                  'resteDate':timeDifferenceController.text,
-                                 'resteTime': timeDifferenceInMinutesController.text,
+                                 'resteTime': restyController.text,
                                  
                               };
 
