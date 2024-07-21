@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sante_en_poche/constant/background/backgroun.dart';
 import 'package:sante_en_poche/constant/background/background.dart';
 import 'package:sante_en_poche/constant/background/backgroundnoti.dart';
+import 'package:sante_en_poche/constant/colors/colors.dart';
 import 'package:sante_en_poche/screens/appointement/appointlist.dart';
 import 'package:sante_en_poche/screens/login/login.dart';
 import 'package:sante_en_poche/screens/medicalfile/medfile.dart';
@@ -23,12 +24,15 @@ class MyHome extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height:size.height*0.2 ,),
+          SizedBox(height:size.height*0.1 ,),
           Stack(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: SvgPicture.asset('assets/images/home/Group 51867.svg'),
+                child: Container(
+                  height: size.height*0.4,
+                  width: size.width*0.9,
+                  child: SvgPicture.asset('assets/images/home/Group 51867.svg',height: size.height*0.4,width: size.width*0.9, fit: BoxFit.cover,),),
               ),
               Padding(
                 padding:  EdgeInsets.symmetric(vertical: 170.h, horizontal: 180.w),
@@ -80,7 +84,7 @@ class MyHome extends StatelessWidget {
             ],
       
           ),
-      
+      SizedBox(height: 50,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 80),
             child: SizedBox(height: 60.h, 
@@ -96,7 +100,7 @@ class MyHome extends StatelessWidget {
                                         ),
                                       );
                                     }, style: ElevatedButton.styleFrom(
-                                      foregroundColor: Colors.white, backgroundColor: Color(0xffE00000),
+                                      foregroundColor: Colors.white, backgroundColor: MyColors.logoutButton,
                                       
                                     ),
                                      child: Center(

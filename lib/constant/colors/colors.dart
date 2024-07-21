@@ -13,4 +13,6 @@ class MyColors{
   static const Color CalendarDropDown = Color(0xff35CBCC);
   static const Color buttonRes = Color(0xff35CBCC);
   static const Color lineColor = Color(0xff00000057);
+  static const Color starOn = Color(0xff9AEFEF);
+  static const Color logoutButton = Color(0xffE00000);
 }

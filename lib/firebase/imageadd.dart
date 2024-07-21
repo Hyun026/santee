@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:sante_en_poche/screens/appointement/search/searchlist.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Function to pick an image
@@ -59,6 +59,19 @@ class StoreData {
          await userDocRef.update({
             'imageLink': imageUrl,
           });
+
+              QuerySnapshot appointmentsSnapshot = await _firestore
+            .collection('appointments')
+            .where('user', isEqualTo: user.uid)
+            .get();
+
+        
+        for (var doc in appointmentsSnapshot.docs) {
+          await doc.reference.update({
+            'userImage': imageUrl,
+          });
+        }
+
           response = 'success';
         } else {
           // Check in 'doctors' collection
@@ -69,6 +82,20 @@ class StoreData {
             await doctorDocRef.update({
               'imageLink': imageUrl,
             });
+
+                 
+        QuerySnapshot appointmentsSnapshot = await _firestore
+            .collection('appointments')
+            .where('Doctor', isEqualTo: user.uid)
+            .get();
+
+        
+        for (var doc in appointmentsSnapshot.docs) {
+          await doc.reference.update({
+            'imageLink': imageUrl,
+          });
+        }
+
             response = 'success';
           } else {
             response = 'No document found for current user.';
