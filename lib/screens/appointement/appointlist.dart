@@ -28,11 +28,13 @@ class _MyAppointementsState extends State<MyAppointements> {
   }
   @override
   Widget build(BuildContext context) {
+  Size size = MediaQuery.of(context).size;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Mes rendez-vous', style: TextStyle(color: Colors.white,fontSize: 17.sp),),
+         SizedBox( height: size.height*0.2,),
+            Text('Mes rendez-vous', style: TextStyle(color: Colors.white,fontSize: 25.sp),),
              Expanded(
           child: FutureBuilder(
             future: getDocId(),
