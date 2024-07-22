@@ -14,7 +14,7 @@ class MyBackgroundHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    Size size = MediaQuery.of(context).size;
    return Scaffold(
       body: Stack(
         children: [
@@ -68,6 +68,9 @@ class MyBackgroundHome extends StatelessWidget {
               ],
             ),
           ),
+      //container
+   
+
           Padding(
             padding: EdgeInsets.symmetric(vertical: 90.h),
             child: Align(

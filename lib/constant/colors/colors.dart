@@ -15,5 +15,5 @@ class MyColors{
   static const Color lineColor = Color(0xff00000057);
   static const Color starOn = Color(0xff9AEFEF);
   static const Color logoutButton = Color(0xffE00000);
-
+  static const Color gradientCircle = Color(0xffB3E5FC);
 }
