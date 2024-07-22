@@ -448,7 +448,7 @@ Future<String> getCurrentImage() async {
                         ),
                       ],
                     ),
-                    SizedBox(height: size.height*0.05,),
+                    SizedBox(height: size.height*0.01,),
                     //booking button
                     Center(
                       child: ElevatedButton(onPressed: ()async {

@@ -1,13 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sante_en_poche/constant/background/backgroun.dart';
-import 'package:sante_en_poche/constant/background/background.dart';
+
 import 'package:sante_en_poche/constant/background/backgroundnoti.dart';
-import 'package:sante_en_poche/constant/colors/colors.dart';
+
 import 'package:sante_en_poche/screens/appointement/appointlist.dart';
-import 'package:sante_en_poche/screens/login/login.dart';
+
 import 'package:sante_en_poche/screens/medicalfile/medfile.dart';
 
 
@@ -24,11 +24,11 @@ class MyHome extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height:size.height*0.1 ,),
+      const SizedBox(height: 80,),
           Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(vertical: 90),
                 child: Container(
                   height: size.height*0.4,
                   width: size.width*0.9,
@@ -44,7 +44,7 @@ class MyHome extends StatelessWidget {
                         );
                       },
                       child: SvgPicture.asset(
-                        'assets/images/home/Group 51870.svg',
+                        'assets/images/home/Group 51867.svg',
                       ),
                     ),
               ),
@@ -84,40 +84,7 @@ class MyHome extends StatelessWidget {
             ],
       
           ),
-      SizedBox(height: 50,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80),
-            child: SizedBox(height: 60.h, 
-              child: ElevatedButton(onPressed:  () {
-                
-                FirebaseAuth.instance.signOut();
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MyBackground(
-                                             
-                                              child: MyLogin()),
-                                        ),
-                                      );
-                                    }, style: ElevatedButton.styleFrom(
-                                      foregroundColor: Colors.white, backgroundColor: MyColors.logoutButton,
-                                      
-                                    ),
-                                     child: Center(
-                                       child: Row(
-                                       mainAxisAlignment: MainAxisAlignment.center,
-                                      
-                                        
-                                         children: [
-                                           Text('Se déconnecter',style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.bold),),
-                                           SizedBox(width: 20.w,),
-                                           SvgPicture.asset('assets/images/home/icons8_logout_rounded_up.svg')
-                                         ],
-                                       ),
-                                     )),
-            ),
-          ),
-          
+     
         ],
       ),
     );

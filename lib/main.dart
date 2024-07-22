@@ -23,11 +23,7 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  await Firebase.initializeApp();
-
-
-
-  
+  await Firebase.initializeApp();  
   runApp(MyApp());
 }
 

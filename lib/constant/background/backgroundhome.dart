@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+
+import 'package:sante_en_poche/constant/background/background.dart';
+import 'package:sante_en_poche/constant/colors/colors.dart';
+import 'package:sante_en_poche/screens/login/login.dart';
 //background for home
 class MyBackgroundHome extends StatelessWidget {
   final Widget child;
@@ -9,18 +14,18 @@ class MyBackgroundHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     Size size = MediaQuery.of(context).size;
+
    return Scaffold(
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xff3C7CDC),
-                  Color(0Xff8BC2F8),
+                  MyColors.backgroundColor1,
+                  MyColors.backgroundColor2,
                 ],
               ),
             ),
@@ -29,47 +34,84 @@ class MyBackgroundHome extends StatelessWidget {
             alignment: Alignment.topRight,
             child: SvgPicture.asset(
               'assets/images/background/Intersection 1.svg',
-              height: size.height * 0.3, // Adjust the height relative to screen height
-              width: size.width * 0.4, // Adjust the width relative to screen width
+             
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 80.h, horizontal: 40.w),
-            child: Container(
-              height: size.height * 0.3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Votre Santé',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30.sp,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Votre Santé',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25.sp,
+                  ),
+                ),
+                Text(
+                  'au bout',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25.sp,
+                  ),
+                ),
+                Text(
+                  "d'1 Clic",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 35.sp,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 6,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 90.h),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyBackground(
+            child: MyLogin(),
                     ),
                   ),
-                  Text(
-                    'au bout',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30.sp,
-                    ),
-                  ),
-                  Text(
-                    "d'1 Clic",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40.sp,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 6,
-                    ),
-                  ),
-                ],
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(300.w, 50.h),
+                foregroundColor: Colors.white,
+                backgroundColor: MyColors.logoutButton,
               ),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+            'Se déconnecter',
+            style: TextStyle(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.bold,
+            ),
+                    ),
+                    SizedBox(width: 20.w),
+                    SvgPicture.asset('assets/images/home/icons8_logout_rounded_up.svg')
+                  ],
+                ),
+              ),
+            )
+            
             ),
           ),
           Container(
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,6 +119,8 @@ class MyBackgroundHome extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      
+                
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: SvgPicture.asset(
@@ -110,8 +154,8 @@ class MyBackgroundHome extends StatelessWidget {
                   Container(
                     height: 50.h,
                     width: 50.w,
-                    decoration: BoxDecoration(
-                      color: Color(0xff005C8B),
+                    decoration: const BoxDecoration(
+                      color: MyColors.navy,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(50),
                         topRight: Radius.circular(50),
@@ -119,11 +163,11 @@ class MyBackgroundHome extends StatelessWidget {
                       ),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: SvgPicture.asset(
                         'assets/images/home/icons8_medical_doctor.svg',
-                        height: 30.h, // Adjust height for responsiveness
-                        width: 30.w,  // Adjust width for responsiveness
+                        height: 30.h, 
+                        width: 30.w,  
                       ),
                     ),
                   ),
@@ -131,12 +175,12 @@ class MyBackgroundHome extends StatelessWidget {
               ),
             ),
           ),
-          // Ensure `child` is defined and responsive
+       
           Positioned.fill(
             child: Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox.expand(
-                child: child, // The child widget should adapt to the available space
+                child: child, 
               ),
             ),
           ),
