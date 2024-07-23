@@ -14,7 +14,7 @@ class MyBackgroundHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+  
    return Scaffold(
       body: Stack(
         children: [
@@ -38,7 +38,7 @@ class MyBackgroundHome extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 80.h, horizontal: 40.w),
+            padding: EdgeInsets.symmetric(vertical: 50.h, horizontal: 40.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -60,7 +60,7 @@ class MyBackgroundHome extends StatelessWidget {
                   "d'1 Clic",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 35.sp,
+                    fontSize: 25.sp,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 6,
                   ),
@@ -72,7 +72,7 @@ class MyBackgroundHome extends StatelessWidget {
    
 
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 90.h),
+            padding: EdgeInsets.symmetric(vertical: 110.h),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(

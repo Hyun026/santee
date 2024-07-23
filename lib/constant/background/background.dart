@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sante_en_poche/constant/colors/colors.dart';
 
 //background for Login page
 class MyBackground extends StatefulWidget {
@@ -16,6 +17,7 @@ class MyBackground extends StatefulWidget {
 class _MyBackgroundState extends State<MyBackground> {
   @override
   Widget build(BuildContext context) {
+     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: [
@@ -25,8 +27,8 @@ class _MyBackgroundState extends State<MyBackground> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xff3C7CDC),
-                  Color(0Xff8BC2F8),
+                  MyColors.backgroundColor1,
+                  MyColors.backgroundColor2,
                 ],
               ),
             ),
@@ -39,14 +41,18 @@ class _MyBackgroundState extends State<MyBackground> {
           ),
           Align(
             alignment: Alignment.topCenter,
-            child: SvgPicture.asset(
-              'assets/images/background/Group 51866.svg',
-              fit: BoxFit.cover,
+            child: Container(
+              height: size.height,
+              width: size.width,
+              child: SvgPicture.asset(
+                'assets/images/background/Group 51866.svg',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Column(
             children: [
-               SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+               SizedBox(height: MediaQuery.of(context).size.height * 0.1),
               Center(
                child: Padding(
                  padding:  EdgeInsets.all(20.0.h),

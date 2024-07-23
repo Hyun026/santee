@@ -1,4 +1,4 @@
-import 'dart:io';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +13,10 @@ import 'package:sante_en_poche/constant/background/backgroundmain.dart';
 import 'package:sante_en_poche/home.dart';
 import 'package:sante_en_poche/screens/signup/signup2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sante_en_poche/firebase/imageadd.dart';
+
+class OptionsController extends ValueNotifier<String?> {
+  OptionsController(String? value) : super(value);
+}
 
 class MySignup3 extends StatefulWidget {
   const MySignup3({super.key});
@@ -56,6 +59,14 @@ class _MySignup3State extends State<MySignup3> {
       values: "Option 4",
     ),
   ];
+
+   OptionsController _optionsController = OptionsController(null);
+
+  @override
+  void dispose() {
+    _optionsController.dispose();
+    super.dispose();
+  }
 
   Option? selectedOption;
   Options? selectedOptions;
@@ -105,267 +116,273 @@ class _MySignup3State extends State<MySignup3> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: size.height * 0.27,
-          ),
-          Stack(
-            children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 30.h),
-                  child: Container(
-                    width: size.width * 1,
-                    height: size.height * 0.60,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(75.0),
-                      ),
-                    ),
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(50.0),
-                        child: Column(
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                  'Lorem ipsum dolor sit amet',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.sp),
-                                ),
-                                Column(
-                                  children: optionsList.map((option) {
-                                    return SizedBox(
-                                      height: 40.h,
-                                      child: Row(
-                                        children: [
-                                          Radio<Option>(
-                                            value: option,
-                                            groupValue: selectedOption,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                selectedOption = value;
-                                              });
-                                            },
-                                            activeColor: Colors.blue,
-                                          ),
-                                          Text(
-                                            option.value,
-                                            style:
-                                                const TextStyle(fontSize: 16),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                                Text(
-                                  'Lorem ipsum dolor sit amet',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.sp),
-                                ),
-                                Column(
-                                  children: optionsList1.map((Options) {
-                                    return Container(
-                                      height: 40.h,
-                                      child: Row(
-                                        children: [
-                                          Radio(
-                                            value: Options,
-                                            groupValue: selectedOptions,
-                                            onChanged: (values) {
-                                              setState(() {
-                                                selectedOptions = values;
-                                              });
-                                            },
-                                            activeColor: Colors.blue,
-                                          ),
-                                          Text(
-                                            Options.values,
-                                            style: TextStyle(fontSize: 16),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20.h,
-                            ),
-                            _buildInputField(
-                              controller: commentController,
-                              context: context,
-                              hintText: "Commentaire",
-                            )
-                          ],
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+         
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 30.h),
+                    child: Container(
+                      width: size.width * 1,
+                      height: size.height * 0.7,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(75.0),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 50.w,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: const LinearGradient(colors: [
-                            Color(0xffffffff),
-                            Color(0xffd0e0fc),
-                          ]),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: const Offset(0, 3),
-                            ),
-                          ]),
-                      child: Padding(
-                          padding: EdgeInsets.all(20.w),
-                          child: SvgPicture.asset(
-                              'assets/images/signup/icons8_inscription_2.svg')),
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Inscriptions',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22),
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                                'assets/images/signup/icons8_questions_2(1).svg'),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            const Text('Questionnaire')
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Container(
-            height: size.height * 0.1,
-            width: size.width * 1,
-            decoration: BoxDecoration(color: Colors.white),
-            child: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyBackgroundMain(
-                            child: MySignup2(),
-                            useAppBar: true,
-                            useMenuBar: false,
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(50.0),
+                          child: Column(
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    'Lorem ipsum dolor sit amet',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.sp),
+                                  ),
+                                  Column(
+                                    children: optionsList.map((option) {
+                                      return SizedBox(
+                                        height: 40.h,
+                                        child: Row(
+                                          children: [
+                                            Radio<Option>(
+                                              value: option,
+                                              groupValue: selectedOption,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  selectedOption = value;
+                                                });
+                                              },
+                                              activeColor: Colors.blue,
+                                            ),
+                                            Text(
+                                              option.value,
+                                              style:
+                                                  const TextStyle(fontSize: 16),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                  Text(
+                                    'Lorem ipsum dolor sit amet',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.sp),
+                                  ),
+                                  Column(
+                                    children: optionsList1.map((Options) {
+                                      return Container(
+                                        height: 40.h,
+                                        child: Row(
+                                          children: [
+                                            Radio(
+                                              value: Options,
+                                              groupValue: selectedOptions,
+                                              onChanged: (values) {
+                                                setState(() {
+                                                  selectedOptions = values;
+                                                });
+                                              },
+                                              activeColor: Colors.blue,
+                                            ),
+                                            Text(
+                                              Options.values,
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              _buildInputField(
+                                controller: commentController,
+                                context: context,
+                                hintText: "Commentaire",
+                              )
+                            ],
                           ),
                         ),
-                      );
-                    },
-                    child: Text(
-                      'Retour',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(155.w, 45.h),
-                      backgroundColor: const Color(0xff35cbcc),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 50.w,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: const LinearGradient(colors: [
+                              Color(0xffffffff),
+                              Color(0xffd0e0fc),
+                            ]),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(0, 3),
+                              ),
+                            ]),
+                        child: Padding(
+                            padding: EdgeInsets.all(20.w),
+                            child: SvgPicture.asset(
+                                'assets/images/signup/icons8_inscription_2.svg')),
                       ),
-                    ),
-                    onPressed: () async {
-                      String downloadUrl = await uploadImage(
-                          'assets/images/search/Sanstitre.png');
-                      Map<String, dynamic> dataToSave = {
-                        'user': user!.uid,
-                        'name': name,
-                        'lastname': lastname,
-                        'adress': adress,
-                        'cin': cin,
-                        'birthday': birthday,
-                        'assurance': assurance,
-                        'gender': gender,
-                        'Etat Civil': civil,
-                        'Phone': phone,
-                        'Région': region,
-                        'Régime': regime,
-                        'Affiliation': affiliation,
-                        'kidName': kidName,
-                        'kidLastName': kidLastName,
-                        'kidCIN': kidCIN,
-                        'comment': commentController.text,
-                        'imageLink': downloadUrl,
-                      };
-
-                      await FirebaseFirestore.instance
-                          .collection("users")
-                          .doc(user!.uid)
-                          .set(dataToSave);
-
-                      final prefs = await SharedPreferences.getInstance();
-                      prefs.setString("imageLink", downloadUrl);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              MyBackgroundHome(child: MyHome()),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Inscriptions',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22),
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/signup/icons8_questions_2(1).svg'),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              const Text('Questionnaire')
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+               Positioned(
+                bottom: 0,
+                 child: Container(
+                             height: size.height * 0.1,
+                             width: size.width * 1,
+                             decoration: BoxDecoration(color: Colors.white),
+                             child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyBackgroundMain(
+                                child: MySignup2(),
+                                useAppBar: true,
+                                useMenuBar: false,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Retour',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
-                      );
-                    },
-                    child: Text(
-                      'Suivant',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
                       ),
-                    ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(155.w, 45.h),
+                          backgroundColor: const Color(0xff35cbcc),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                        onPressed: () async {
+                          String downloadUrl = await uploadImage(
+                              'assets/images/search/Sanstitre.png');
+                          Map<String, dynamic> dataToSave = {
+                            'user': user!.uid,
+                            'name': name,
+                            'lastname': lastname,
+                            'adress': adress,
+                            'cin': cin,
+                            'birthday': birthday,
+                            'assurance': assurance,
+                            'gender': gender,
+                            'Etat Civil': civil,
+                            'Phone': phone,
+                            'Région': region,
+                            'Régime': regime,
+                            'Affiliation': affiliation,
+                            'kidName': kidName,
+                            'kidLastName': kidLastName,
+                            'kidCIN': kidCIN,
+                            'comment': commentController.text,
+                            'imageLink': downloadUrl,
+                          };
+                 
+                          await FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(user!.uid)
+                              .set(dataToSave);
+                 
+                          final prefs = await SharedPreferences.getInstance();
+                          prefs.setString("imageLink", downloadUrl);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  MyBackgroundHome(child: MyHome()),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Suivant',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                             ),
+                           ),
+               ),
+              ],
             ),
-          ),
-        ],
+          
+          ],
+        ),
       ),
     );
   }
