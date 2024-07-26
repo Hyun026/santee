@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService{
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-   String _verificationId = '';
+
+   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
 
  
   Future<User?> register(String email,String password, BuildContext context) async {
@@ -22,118 +26,36 @@ class AuthService{
     }
   }
    
-  Future<User?> login(String email,String password, BuildContext context) async{
-    try{
-    UserCredential userCredential =
-    await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-    return userCredential.user;
-    } on FirebaseAuthException catch(e){
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message.toString()),backgroundColor: Colors.red,));
-    return null;
-    }catch(e){
-    print(e);
-    return null;
-    }
-
-
-  }
-
-  //check if email exists in the firebase
-  Future<bool> doesEmailExist(String email) async {
-  try {
-   
-    var methods = await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-    return methods.isNotEmpty; 
-  } catch (e) {
- 
-    print('Error: $e');
-    return false;
-  }
-}
-
-  Future<void> sendPasswordResetEmail(String email) async {
+  Future<User?> login(String email, String password, BuildContext context) async {
     try {
-      await firebaseAuth.sendPasswordResetEmail(email: email);
-    } catch (e) {
-      print('Error sending password reset email: $e');
-      throw e; 
-    }
-  }
-/*
-Future<bool> verifyOTP(String otp) async {
-    try {
-     
-      final credential = EmailAuthCredential.credential(
-        verificationId: _verificationId,
-        smsCode: otp,
+      UserCredential userCredential = await firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
       );
-      await firebaseAuth.signInWithCredential(credential);
-      return true;
-    } catch (e) {
-      print('Failed to verify OTP: $e');
-      return false;
-    }
-  }*/
+      User? user = userCredential.user;
+      if (user != null) {
+       
+        DocumentSnapshot userDoc = await firestore.collection('users').doc(user.uid).get();
 
+        String collection = userDoc.exists ? 'users' : 'doctors'; 
 
-
-
-  Future<void> verifyEmail(String email,BuildContext context) async {
-    try {
-      User? user = firebaseAuth.currentUser;
-      if (user != null && !user.emailVerified) {
-        await user.sendEmailVerification();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Verification email sent to ${user.email}'),
-            backgroundColor: Colors.green,
-          ),
-        );
+        // Update online status
+        await firestore.collection(collection).doc(user.uid).update({'online': true});
       }
-    } catch (e) {
-      print('Error sending email verification: $e');
+      return user;
+    } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to send verification email'),
+          content: Text(e.message.toString()),
           backgroundColor: Colors.red,
         ),
       );
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
-  /*
-  Future<User?> code(String code, BuildContext context) async {
-  try {
-    UserCredential userCredential = await firebaseAuth.verifyPasswordResetCode(code);
-    User? user = userCredential.user;
-    
-    return user;
-  } catch (e) {
-   
-    print('Error verifying password reset code: $e');
-   
-    return null;
-  }
-}*/
-
 }
-
-
-/*lalalalal
-
-
-ghjdfkdkkled
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
+  //check if email exists in the firebase
+ 

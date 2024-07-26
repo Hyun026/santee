@@ -92,7 +92,7 @@ class _MySearchState extends State<MySearch> {
         title: TextField(
           controller: searchController,
           decoration: const InputDecoration(
-            hintText: 'Search by name or lastname...',
+            hintText: 'Recherche par Prénom',
             border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
           ),
@@ -151,7 +151,7 @@ class _MySearchState extends State<MySearch> {
                       filterResults();
                       Navigator.pop(context);
                     },
-                    items: <String>['Pediatrician', 'Dermatologist', 'General', 'Cardiologist', 'Dentist', 'Endocrinologist', 'Nephrologist', 'Neurology', 'Ophthalmology', 'Orthopedics', 'Pathology', 'Pulmonology']
+                    items: <String>['Pédiatrie', 'Dermatologist', 'General', 'Cardiologist', 'Dentist', 'Endocrinologist', 'Nephrologist', 'Neurology', 'Ophthalmology', 'Orthopedics', 'Pathology', 'Pulmonology']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,

@@ -185,7 +185,7 @@ class _MyMainPageState extends State<MyMainPage> {
             //search
             Container(
                 
-              width: MediaQuery.of(context).size.width * 0.9,
+              width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(  topLeft: Radius.circular(30.0),
         topRight: Radius.circular(30.0),bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20)),
@@ -205,11 +205,11 @@ class _MyMainPageState extends State<MyMainPage> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                             borderRadius: BorderRadius.circular(50.0),
+                             borderRadius: BorderRadius.circular(20.0),
                           color: Colors.white
                         ),
                           height: MediaQuery.of(context).size.height * 0.05,
-                                      width: MediaQuery.of(context).size.width * 0.9,
+                                      width: MediaQuery.of(context).size.width,
                         child:const Padding(
                                         padding: EdgeInsets.all(11.0),
                                         child: Row(
@@ -220,7 +220,7 @@ class _MyMainPageState extends State<MyMainPage> {
                         'Chercher un docteur ,  spécialité...',
                         style: TextStyle(color: MyColors.hintTextColor), 
                       ),
-                      Icon(Icons.search,color: MyColors.hintTextColor,),
+                      Icon(Icons.search,color: MyColors.navy,),
                                           ],
                                         ), 
                       ),

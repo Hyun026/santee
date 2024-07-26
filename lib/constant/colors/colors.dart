@@ -21,4 +21,8 @@ class MyColors{
   static const Color labeltext = Color(0xffA1A1A1);
   static const Color border =  Color(0xffCAEBF3);
   static const Color notiText = Color(0xff696969);
+  static const Color container2 = Color(0xffF0FCFF);
+  static const Color searchFill = Color(0xffF3F3F3);
+  static const Color verydeepGrey = Color(0xffAEAEAE);
+  static const Color listText = Color(0xff636363);
 }

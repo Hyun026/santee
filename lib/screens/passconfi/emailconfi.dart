@@ -68,7 +68,7 @@ class _MyEmailState extends State<MyEmail> {
           onPressed:() async {
              String email = confEmail.text.trim();
    AuthService authService = AuthService();
-  await authService.sendPasswordResetEmail(email);
+ // await authService.sendPasswordResetEmail(email);
   
     Navigator.push(
       context,

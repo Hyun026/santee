@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,7 +12,10 @@ import 'package:sante_en_poche/screens/login/login.dart';
 class MyBackgroundHome extends StatelessWidget {
   final Widget child;
 
-  const MyBackgroundHome({Key? key, required this.child}) : super(key: key);
+  MyBackgroundHome({Key? key, required this.child}) : super(key: key);
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +73,7 @@ class MyBackgroundHome extends StatelessWidget {
               ],
             ),
           ),
-      //container
+   
    
 
           Padding(
@@ -76,17 +81,55 @@ class MyBackgroundHome extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyBackground(
-            child: MyLogin(),
-                    ),
-                  ),
-                );
-              },
+                  onPressed: () async {
+                  User? user = _auth.currentUser;
+                  if (user != null) {
+                    try {
+                  
+                      DocumentReference userDocRef = firestore.collection('users').doc(user.uid);
+                      DocumentReference doctorDocRef = firestore.collection('doctors').doc(user.uid);
+                      
+                  
+                      var userDoc = await userDocRef.get();
+                      if (userDoc.exists) {
+                        await userDocRef.update({'online': false});
+                        print("Updated online status in users collection");
+                      } else {
+                        print("User document not found in 'users' collection");
+                      }
+                      
+                      
+                      var doctorDoc = await doctorDocRef.get();
+                      if (doctorDoc.exists) {
+                        await doctorDocRef.update({'online': false});
+                        print("Updated online status in doctors collection");
+                      } else {
+                        print("Doctor document not found in 'doctors' collection");
+                      }
+
+                      await _auth.signOut();
+                      print("Signed out successfully");
+
+                
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyBackground(
+                            child: MyLogin(),
+                          ),
+                        ),
+                      );
+                    } catch (e) {
+                      print("Error during sign out: $e");
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Error signing out. Please try again.'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  }
+                },
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(300.w, 50.h),
                 foregroundColor: Colors.white,

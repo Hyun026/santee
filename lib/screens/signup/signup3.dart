@@ -347,6 +347,7 @@ class _MySignup3State extends State<MySignup3> {
                             'kidCIN': kidCIN,
                             'comment': commentController.text,
                             'imageLink': downloadUrl,
+                            'online': true,
                           };
                  
                           await FirebaseFirestore.instance
