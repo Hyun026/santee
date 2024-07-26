@@ -518,7 +518,7 @@ Future<String> getCurrentImage() async {
                            'userImage':userImage,
                            'resteDate':timeDifferenceController.text,
                            'resteTime': restyController.text,
-                             'timestampField': FieldValue.serverTimestamp(),
+                            'timestampField': FieldValue.serverTimestamp(),
                               'isRead' : false,
                            
                            
@@ -580,7 +580,7 @@ Future<String> getCurrentImage() async {
              ),
           ),
           Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 30.w,vertical: 220.h),
+                          padding: EdgeInsets.symmetric(horizontal:20 .w,vertical: 220.h),
             child: Row(
                  crossAxisAlignment: CrossAxisAlignment.start,
                 
@@ -620,7 +620,7 @@ Future<String> getCurrentImage() async {
                                            style:const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 22,
+                        fontSize: 19,
                                                         ) ,),
                        SizedBox(
                          height: 10.h,

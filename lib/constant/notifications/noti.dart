@@ -30,7 +30,11 @@ class NotificationItem extends StatelessWidget {
 
 
 class MyNoti extends StatefulWidget {
-  const MyNoti({super.key});
+   final VoidCallback onNotificationsRead;
+
+  const MyNoti({required this.onNotificationsRead, Key? key})
+      : super(key: key);
+
 
   @override
   State<MyNoti> createState() => _MyNotiState();
@@ -63,7 +67,24 @@ class _MyNotiState extends State<MyNoti> {
   setState(() {
     containerStates = newStates;
   });
+    _updateUnreadCount();
 }
+
+ Future<void> _updateUnreadCount() async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('notiDoc')
+        .where('user', isEqualTo: user.uid)
+        .where('isRead', isEqualTo: false)
+        .get();
+    final count = querySnapshot.docs.length;
+
+    setState(() {
+      (context as Element).markNeedsBuild(); 
+    });
+
+    widget.onNotificationsRead(); 
+  }
+
 
  void _handleContainerClick(String docId) async {
   setState(() {
@@ -79,10 +100,11 @@ class _MyNotiState extends State<MyNoti> {
     context,
     MaterialPageRoute(builder: (context) => Back(child: MyAppointements())),
   );
+    _updateUnreadCount();
 }
 
 void _turnAllContainersWhite() async {
-  // Update all documents to mark them as read
+ 
   final batch = FirebaseFirestore.instance.batch();
   final querySnapshot = await FirebaseFirestore.instance
       .collection('notiDoc')
@@ -97,6 +119,7 @@ void _turnAllContainersWhite() async {
   setState(() {
     allContainersWhite = true; 
   });
+    _updateUnreadCount();
 }
 
   void _closeDialog() {
@@ -160,14 +183,14 @@ void _turnAllContainersWhite() async {
                           onTap: () => _handleContainerClick(docId),
                           child: Container(
                             margin: EdgeInsets.symmetric(vertical: 8),
-                            color: allContainersWhite || isClicked ? Colors.white : Colors.blue, // Change color based on state
+                            color: allContainersWhite || isClicked ? Colors.white : Colors.blue,
                             child: ListTile(
                               leading: const Icon(Icons.notifications, color: MyColors.logoutButton),
                               title: RichText(
                                 text: TextSpan(
                                   children: [
                                     const TextSpan(
-                                      text: 'Un rendez-vous est créé chez vous ',
+                                      text: 'Un rendez-vous est créé chez vous pour le ',
                                       style: TextStyle(color: MyColors.notiText),
                                     ),
                                     TextSpan(
@@ -182,9 +205,17 @@ void _turnAllContainersWhite() async {
                                       text: doc['time'] ?? 'No Time',
                                       style: const TextStyle(color: MyColors.notiText),
                                     ),
+                                      const TextSpan(
+                                      text: " d'aprés ",
+                                      style: TextStyle(color: MyColors.notiText),
+                                    ),
                                   
                                     TextSpan(
-                                      text: ' ' + (doc['Dlastname'] ?? 'No Last Name'),
+                                      text: ' ' + (doc['name'] ?? 'no Name'),
+                                      style: const TextStyle(color: MyColors.notiText),
+                                    ),
+                                      TextSpan(
+                                      text: ' ' + (doc['lastname'] ?? ' no lastName'),
                                       style: const TextStyle(color: MyColors.notiText),
                                     ),
                                   ],

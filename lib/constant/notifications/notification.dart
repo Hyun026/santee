@@ -29,6 +29,11 @@ class NotificationItem extends StatelessWidget {
 
 //show notification
 class NotificationDialog extends StatefulWidget {
+   final VoidCallback onNotificationsRead;
+
+  const NotificationDialog({required this.onNotificationsRead, Key? key})
+      : super(key: key);
+
   @override
   State<NotificationDialog> createState() => _NotificationDialogState();
 }
@@ -53,20 +58,36 @@ class _NotificationDialogState extends State<NotificationDialog> {
 
   final newStates = <String, bool>{};
   for (var doc in querySnapshot.docs) {
-    newStates[doc.id] = doc['isRead'] ?? false; // Fetch state from Firestore
+    newStates[doc.id] = doc['isRead'] ?? false; 
   }
 
   setState(() {
     containerStates = newStates;
   });
+   _updateUnreadCount();
 }
+
+ Future<void> _updateUnreadCount() async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('notiPat')
+        .where('user', isEqualTo: user.uid)
+        .where('isRead', isEqualTo: false)
+        .get();
+    final count = querySnapshot.docs.length;
+
+    setState(() {
+      (context as Element).markNeedsBuild(); 
+    });
+
+    widget.onNotificationsRead();
+  }
 
  void _handleContainerClick(String docId) async {
   setState(() {
-    containerStates[docId] = true; // Mark the clicked container as white
+    containerStates[docId] = true; 
   });
 
-  // Update Firestore to mark this document as read
+  
   await FirebaseFirestore.instance.collection('notiPat').doc(docId).update({
     'isRead': true,
   });
@@ -75,10 +96,11 @@ class _NotificationDialogState extends State<NotificationDialog> {
     context,
     MaterialPageRoute(builder: (context) => Back(child: MyAppointements())),
   );
+    _updateUnreadCount();
 }
 
 void _turnAllContainersWhite() async {
-  // Update all documents to mark them as read
+  
   final batch = FirebaseFirestore.instance.batch();
   final querySnapshot = await FirebaseFirestore.instance
       .collection('notiPat')
@@ -91,13 +113,14 @@ void _turnAllContainersWhite() async {
   await batch.commit();
 
   setState(() {
-    allContainersWhite = true; // Set flag to turn all containers white
+    allContainersWhite = true; 
   });
+    _updateUnreadCount();
 }
 
   void _closeDialog() {
     Navigator.pop(context);
-    // Optionally, call _initializeContainerStates() here if needed
+    
   }
 
   @override
