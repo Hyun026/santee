@@ -35,7 +35,7 @@ class Backmain extends StatelessWidget {
         actions: [
       IconButton(
         color: Colors.white,
-        icon: Icon(Icons.notifications),
+        icon: const Icon(Icons.notifications),
         onPressed: () {
          
         },
@@ -49,7 +49,7 @@ class Backmain extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -73,14 +73,14 @@ class Backmain extends StatelessWidget {
           onPressed: () {
              Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Back(useAppBar: true,
+                          MaterialPageRoute(builder: (context) => const Back(useAppBar: true,
                             child: MyMainPage()) ),
                         );
           },
           shape:  RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50.0)),
           backgroundColor: Colors.white,
-          child: Icon(Icons.add,color: Colors.blue,),
+          child: const Icon(Icons.add,color: Colors.blue,),
         ),
 
     );

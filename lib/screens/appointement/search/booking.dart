@@ -216,6 +216,18 @@ Future<void> _getInitialRating() async {
   return 'Unknown User';
 }
 
+Future<String> getCurrentUserLastName() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+    if (userDoc.exists) {
+      return userDoc['lastname'] ?? 'Unknown User'; 
+    }
+  }
+  return 'Unknown User';
+}
+
+
 Future<String> getCurrentImage() async {
   User? user = FirebaseAuth.instance.currentUser;
   if (user != null) {
@@ -462,10 +474,12 @@ Future<String> getCurrentImage() async {
                         );
                       }else{
                            String userName = await getCurrentUserName();
+                           String userLastName = await getCurrentUserLastName();
                        String userImage = await getCurrentImage();
                        //give me a string equal 45 mins
                          Map<String, dynamic> dataToSave = {
                           'user': user!.uid,
+                          'lastname': userLastName,
                           'date': _dateController.text,
                           'time': selectedTimeController.text,
                           'name': userName,
@@ -480,13 +494,69 @@ Future<String> getCurrentImage() async {
                            'userImage':userImage,
                            'resteDate':timeDifferenceController.text,
                            'resteTime': restyController.text,
+                             'timestamp': FieldValue.serverTimestamp(),
                            
                         };
       
                        await FirebaseFirestore.instance.collection("appointments").add(dataToSave);
+
+                         //notification for doc
+                       Map<String, dynamic> dataToSave1 = {
+                          'Patient': user!.uid,
+                          'lastname': userLastName,
+                          'date': _dateController.text,
+                          'time': selectedTimeController.text,
+                          'name': userName,
+                           'user':widget.doctorDetails['user'],
+                           'Dname':widget.doctorDetails['name'],
+                           'Dlastname':widget.doctorDetails['lastname'],
+                           'Dfield':widget.doctorDetails['field'],
+                           'imageLink':widget.doctorDetails['imageLink'],
+                           'to': newTimeController.text,
+                           'durée':'45 mins',
+                           'weekdate':_weekdayController.text,
+                           'userImage':userImage,
+                           'resteDate':timeDifferenceController.text,
+                           'resteTime': restyController.text,
+                             'timestampField': FieldValue.serverTimestamp(),
+                              'isRead' : false,
+                           
+                           
+                        };
+
+                         await FirebaseFirestore.instance.collection("notiDoc").add(dataToSave1);
+
+                      //notification for patient
+                      
+                       Map<String, dynamic> dataToSave2 = {
+                          'user': user!.uid,
+                          'lastname': userLastName,
+                          'date': _dateController.text,
+                          'time': selectedTimeController.text,
+                          'name': userName,
+                           'Doctor':widget.doctorDetails['user'],
+                           'Dname':widget.doctorDetails['name'],
+                           'Dlastname':widget.doctorDetails['lastname'],
+                           'Dfield':widget.doctorDetails['field'],
+                           'imageLink':widget.doctorDetails['imageLink'],
+                           'to': newTimeController.text,
+                           'durée':'45 mins',
+                           'weekdate':_weekdayController.text,
+                           'userImage':userImage,
+                           'resteDate':timeDifferenceController.text,
+                           'resteTime': restyController.text,
+                             'timestampField': FieldValue.serverTimestamp(),
+                             'isRead' : false,
+                           
+                           
+                        };
+
+                         await FirebaseFirestore.instance.collection("notiPat").add(dataToSave2);
+
                         Navigator.pop(context);
                       } 
-                      
+
+                    
                       },
                       style: ElevatedButton.styleFrom(
                          minimumSize: Size(100.w, 50.h),

@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sante_en_poche/constant/notifications/noti.dart';
+import 'package:sante_en_poche/constant/notifications/notification.dart';
 
 class Back extends StatelessWidget {
   final Widget child;
@@ -30,12 +34,59 @@ class Back extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         actions: [
-      IconButton(
-        color: Colors.white,
-        icon: Icon(Icons.notifications),
-        onPressed: () {
-         
-        },
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 50),
+        child: IconButton(
+          color: Colors.white,
+          icon: const Icon(Icons.notifications),
+          onPressed: ()async {
+              final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+             User? user = _auth.currentUser;
+          
+              if (user != null) {
+               
+                DocumentSnapshot userDoc =
+                    await _firestore.collection('users').doc(user.uid).get();
+                 DocumentSnapshot userDocT =
+                    await _firestore.collection('doctors').doc(user.uid).get();
+          
+                if (userDoc.exists) {
+                
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 60.0, right: 10.0),
+                          child: NotificationDialog(),
+                        ),
+                      );
+                    },
+                  );
+                } else if(userDocT.exists) {
+                   showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 60.0, right: 10.0),
+                          child: const MyNoti(),
+                        ),
+                      );
+                    },
+                  );
+                
+                 
+                }
+              }
+            
+          
+           
+          },
+        ),
       ),
     ],
       );
@@ -46,7 +97,7 @@ class Back extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,

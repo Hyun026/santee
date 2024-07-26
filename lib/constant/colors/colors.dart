@@ -20,4 +20,5 @@ class MyColors{
   static const Color infoWords = Color(0xff044289);
   static const Color labeltext = Color(0xffA1A1A1);
   static const Color border =  Color(0xffCAEBF3);
+  static const Color notiText = Color(0xff696969);
 }

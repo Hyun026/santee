@@ -8,6 +8,7 @@ import 'package:sante_en_poche/constant/background/backgroun.dart';
 import 'package:sante_en_poche/constant/colors/colors.dart';
 
 import 'package:sante_en_poche/screens/appointement/appointlist.dart';
+import 'package:sante_en_poche/screens/appointement/search/searchlist.dart';
 import 'package:sante_en_poche/screens/medicalfile/medfile.dart';
 
 
@@ -202,25 +203,36 @@ class MyHome extends StatelessWidget {
               right: size.width * 0.27,
               child: Column(
                 children: [
-                  Container(
-                  decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3), 
-              spreadRadius: -9, 
-              blurRadius: 15,
-              offset: const Offset(0, 2), 
-            ),
-          ],
-        ),
-                    child: SvgPicture.asset(
-                      'assets/images/home/Group 51869.svg',
-                      fit: BoxFit.cover,
-                      width: 105.0.w,
-                      height: 105.0.h,
-                    ),
-                ),
+                  GestureDetector(
+                    onTap: () {
+                        
+             Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Back(useAppBar: true,
+                            child: MyMainPage()) ),
+                        );
+          
+                    },
+                    child: Container(
+                    decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.3), 
+                                  spreadRadius: -9, 
+                                  blurRadius: 15,
+                                  offset: const Offset(0, 2), 
+                                ),
+                              ],
+                            ),
+                      child: SvgPicture.asset(
+                        'assets/images/home/Group 51869.svg',
+                        fit: BoxFit.cover,
+                        width: 105.0.w,
+                        height: 105.0.h,
+                      ),
+                                    ),
+                  ),
                   Text('Téléconsultation', style: TextStyle(fontSize: 14.sp, color: Colors.white,fontWeight: FontWeight.bold, shadows: [
       Shadow(
         offset: const Offset(2.0, 2.0),
