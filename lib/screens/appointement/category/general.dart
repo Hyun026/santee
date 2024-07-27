@@ -7,6 +7,7 @@ import 'package:sante_en_poche/constant/background/back.dart';
 import 'package:sante_en_poche/constant/buttons/gbuttons.dart';
 import 'package:sante_en_poche/constant/colors/colors.dart';
 import 'package:sante_en_poche/screens/appointement/search/booking.dart';
+import 'package:sante_en_poche/screens/videoCall/videoCall.dart';
 //show doc from general field
 class MyMedG extends StatefulWidget {
   const MyMedG({super.key});
@@ -234,6 +235,20 @@ String searchQuery = '';
                                                 ),
                                               ],
                                             ),
+                                          //video call            
+                                         GestureDetector(
+                                           onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Videocall(),
+                                        ),
+                                      );
+                                    },
+                                           child: Container(
+                                            child: Icon(Icons.person),
+                                           ),
+                                         ),
                                           ],
                                         ),
                                       ),
