@@ -7,22 +7,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sante_en_poche/constant/background/back.dart';
 import 'package:sante_en_poche/constant/buttons/gbuttons.dart';
 import 'package:sante_en_poche/constant/colors/colors.dart';
-
 import 'package:sante_en_poche/screens/appointement/search/booking.dart';
-
 import 'package:sante_en_poche/screens/videoCall/videoCall.dart';
 import 'package:uuid/uuid.dart';
 
-//show doc from general field
-class MyMedG extends StatefulWidget {
-  const MyMedG({super.key});
+class Dermatologist extends StatefulWidget {
+  const Dermatologist({super.key});
 
   @override
-  State<MyMedG> createState() => _MyMedGState();
+  State<Dermatologist> createState() => _DermatologistState();
 }
 
-class _MyMedGState extends State<MyMedG> {
-  User? user = FirebaseAuth.instance.currentUser;
+class _DermatologistState extends State<Dermatologist> {
+   User? user = FirebaseAuth.instance.currentUser;
   String searchQuery = '';
   int _selectedIndex = 0;
 
@@ -43,7 +40,7 @@ class _MyMedGState extends State<MyMedG> {
   Future<int> fetchGeneralDoctorsCount() async {
     var querySnapshot = await FirebaseFirestore.instance
         .collection('doctors')
-        .where('field', isEqualTo: 'General')
+        .where('field', isEqualTo: 'Dermatologist')
         .get();
     return querySnapshot.docs.length;
   }
@@ -51,33 +48,33 @@ class _MyMedGState extends State<MyMedG> {
   Stream<QuerySnapshot> fetchGeneralDoctors() {
     return FirebaseFirestore.instance
         .collection('doctors')
-        .where('field', isEqualTo: 'General')
+        .where('field', isEqualTo: 'Dermatologist')
         .snapshots();
   }
 
   Stream<QuerySnapshot> fetchFilteredDoctors() {
-    var collection = FirebaseFirestore.instance
-        .collection('doctors')
-        .where('field', isEqualTo: 'General');
+  var collection = FirebaseFirestore.instance
+      .collection('doctors')
+      .where('field', isEqualTo: 'Dermatologist');
 
-    if (_selectedIndex == 0) {
-      // Filter for online doctors
-      return collection.where('online', isEqualTo: true).snapshots();
-    } else if (_selectedIndex == 1) {
-      // Filter for doctors in Masahaty
-      return collection
-          .where('localisation', isEqualTo: 'Masahaty')
-          .snapshots();
-    } else if (_selectedIndex == 2) {
-      // Filter for doctors who offer home visits
-      return collection
-          .where('localisatiçon', isEqualTo: 'Domicile')
-          .snapshots();
-    } else {
-      // Default to all doctors
-      return collection.snapshots();
-    }
+  if (_selectedIndex == 0) {
+    // Filter for online doctors
+    return collection.where('online', isEqualTo: true).snapshots();
+  } else if (_selectedIndex == 1) {
+    // Filter for doctors in Masahaty
+    return collection
+        .where('localisation', isEqualTo: 'Masahaty')
+        .snapshots();
+  } else if (_selectedIndex == 2) {
+    // Filter for doctors who offer home visits
+    return collection
+        .where('localisation', isEqualTo: 'Domicile')
+        .snapshots();
+  } else {
+    // Default to all doctors
+    return collection.snapshots();
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -499,7 +496,7 @@ class _MyMedGState extends State<MyMedG> {
                             height: 10.h,
                           ),
                           const Text(
-                            'Médecine générale',
+                            'Dermatologist',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,

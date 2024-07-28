@@ -14,7 +14,9 @@ import 'package:sante_en_poche/constant/buttons/homeB.dart';
 import 'package:sante_en_poche/constant/colors/colors.dart';
 import 'package:sante_en_poche/firebase/dataRetrieve.dart';
 import 'package:sante_en_poche/firebase/imageadd.dart';
+import 'package:sante_en_poche/screens/appointement/category/Dermatologist.dart';
 import 'package:sante_en_poche/screens/appointement/category/general.dart';
+import 'package:sante_en_poche/screens/appointement/category/pediatry.dart';
 import 'package:sante_en_poche/screens/appointement/search/searchPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -297,7 +299,13 @@ class _MyMainPageState extends State<MyMainPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Back(useAppBar: true,child: Pediatrie(),),
+                                  ),
+                                );
                           },
                           child: Container(
                              decoration: BoxDecoration(
@@ -362,7 +370,13 @@ class _MyMainPageState extends State<MyMainPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            
+                            Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Back(useAppBar: true,child: Dermatologist()),
+                                  ),
+                                );
                           },
                           child: Container(
                              height: size.height*0.08,

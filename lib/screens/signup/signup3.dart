@@ -26,6 +26,7 @@ class MySignup3 extends StatefulWidget {
 }
 
 class _MySignup3State extends State<MySignup3> {
+   
   List<Option> optionsList = [
     Option(
       value: "Option 1",
@@ -328,6 +329,8 @@ class _MySignup3State extends State<MySignup3> {
                         onPressed: () async {
                           String downloadUrl = await uploadImage(
                               'assets/images/search/Sanstitre.png');
+                            
+
                           Map<String, dynamic> dataToSave = {
                             'user': user!.uid,
                             'name': name,
@@ -348,6 +351,7 @@ class _MySignup3State extends State<MySignup3> {
                             'comment': commentController.text,
                             'imageLink': downloadUrl,
                             'online': true,
+                            //put the channel id here
                           };
                  
                           await FirebaseFirestore.instance

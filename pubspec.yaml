@@ -39,6 +39,9 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   agora_rtc_engine: ^6.3.2
   permission_handler: ^11.3.1
+  uuid: ^4.0.1
+  wakelock_plus: ^1.2.5
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:

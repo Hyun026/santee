@@ -1,4 +1,6 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,10 +8,13 @@ import 'package:sante_en_poche/constant/background/back.dart';
 
 import 'package:sante_en_poche/constant/background/backgroun.dart';
 import 'package:sante_en_poche/constant/colors/colors.dart';
+import 'package:sante_en_poche/constant/notifications/notiMain.dart';
 
 import 'package:sante_en_poche/screens/appointement/appointlist.dart';
 import 'package:sante_en_poche/screens/appointement/search/searchlist.dart';
 import 'package:sante_en_poche/screens/medicalfile/medfile.dart';
+import 'package:sante_en_poche/screens/videoCall/recieve.dart';
+
 
 
 
@@ -18,6 +23,7 @@ import 'package:sante_en_poche/screens/medicalfile/medfile.dart';
 
 
 class MyHome extends StatelessWidget {
+
   const MyHome({super.key});
 
   @override
@@ -151,29 +157,55 @@ class MyHome extends StatelessWidget {
             right: MediaQuery.of(context).size.width * 0.1,
             child: Column(
               children: [
-                Container(
-                  width: 40.0.w, 
-                  height: 40.0.h, 
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(colors: [
-                      Colors.white,
-                      MyColors.CalendarToday,
-                    ]),
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.5),
-                        spreadRadius: -5,
-                        blurRadius: 8,
-                        offset: const Offset(0, 12),
+                GestureDetector(
+                     onTap: () async {
+               final User? user = FirebaseAuth.instance.currentUser;
+                final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+                if (user != null) {
+                  DocumentSnapshot userDoc =
+                      await _firestore.collection('users').doc(user.uid).get();
+                  DocumentSnapshot userDocT =
+                      await _firestore.collection('doctors').doc(user.uid).get();
+
+                  if (userDoc.exists) {
+                   Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>const Back( useAppBar: false, child:  NotiPatient()),
+                                ),
+                              );
+                  } else if (userDocT.exists) {
+                     Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>const Back(child:  NotiDoctor()),
+                                ),
+                              );
+                  }}},
+                  child: Container(
+                    width: 40.0.w, 
+                    height: 40.0.h, 
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(colors: [
+                        Colors.white,
+                        MyColors.CalendarToday,
+                      ]),
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.5),
+                          spreadRadius: -5,
+                          blurRadius: 8,
+                          offset: const Offset(0, 12),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/images/home/icons8_alarm_1(1).svg',
+                        width: 26.w, 
+                        height: 26.h, 
                       ),
-                    ],
-                  ),
-                  child: Center(
-                    child: SvgPicture.asset(
-                      'assets/images/home/icons8_alarm_1(1).svg',
-                      width: 26.w, 
-                      height: 26.h, 
                     ),
                   ),
                 ),
@@ -360,25 +392,37 @@ class MyHome extends StatelessWidget {
               left: size.width * 0.05,
               child: Column(
                 children: [
-                 Container(
-                  decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3), 
-              spreadRadius: -15, 
-              blurRadius: 15,
-              offset: const Offset(0, 2), 
-            ),
-          ],
-        ),
-                    child: SvgPicture.asset(
-                      'assets/images/home/Group 51871.svg',
-                      fit: BoxFit.cover,
-                      width: 105.0.w,
-                      height: 105.0.h,
-                    ),
-                ),
+                 GestureDetector(
+                  onTap: () {
+                      final User? user = FirebaseAuth.instance.currentUser;
+                    String doctorUserId = user!.uid;
+                  Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>IncomingCallsScreen(doctorUserId: doctorUserId,),
+                                ),
+                              );
+              },
+                   child: Container(
+                    decoration: BoxDecoration(
+                             shape: BoxShape.circle,
+                             boxShadow: [
+                               BoxShadow(
+                                 color: Colors.black.withOpacity(0.3), 
+                                 spreadRadius: -15, 
+                                 blurRadius: 15,
+                                 offset: const Offset(0, 2), 
+                               ),
+                             ],
+                           ),
+                      child: SvgPicture.asset(
+                        'assets/images/home/Group 51871.svg',
+                        fit: BoxFit.cover,
+                        width: 105.0.w,
+                        height: 105.0.h,
+                      ),
+                                   ),
+                 ),
                   Text('SOS Médecin', style: TextStyle(fontSize: 14.sp, color: Colors.white,fontWeight: FontWeight.bold, shadows: [
       Shadow(
         offset: const Offset(2.0, 2.0),

@@ -178,7 +178,7 @@ void _turnAllContainersWhite() async {
                           onTap: () => _handleContainerClick(docId),
                           child: Container(
                             margin: EdgeInsets.symmetric(vertical: 8),
-                            color: allContainersWhite || isClicked ? Colors.white : Colors.blue, // Change color based on state
+                            color: allContainersWhite || isClicked ? Colors.white : MyColors.border,
                             child: ListTile(
                               leading: const Icon(Icons.notifications, color: MyColors.logoutButton),
                               title: RichText(

@@ -2,16 +2,17 @@ import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 class Videocall extends StatefulWidget {
-  const Videocall({super.key});
+  //final String channelId;
+
+  const Videocall({Key? key, /*required this.channelId*/}) : super(key: key);
 
   @override
   State<Videocall> createState() => _VideocallState();
 }
 
 class _VideocallState extends State<Videocall> {
-   int? _remoteUid;
+ int? _remoteUid;
   bool _localUserJoined = false;
   late RtcEngine _engine;
 
@@ -21,14 +22,14 @@ class _VideocallState extends State<Videocall> {
     initAgora();
   }
 
- Future<void> initAgora() async {
+  Future<void> initAgora() async {
     // retrieve permissions
     await [Permission.microphone, Permission.camera].request();
 
     //create the engine
     _engine = createAgoraRtcEngine();
     await _engine.initialize(const RtcEngineContext(
-      appId:"6ed8dd97790f4a63b206164a0e76a374",
+      appId: "6ed8dd97790f4a63b206164a0e76a374",
       channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
     ));
 
@@ -65,13 +66,14 @@ class _VideocallState extends State<Videocall> {
     await _engine.startPreview();
 
     await _engine.joinChannel(
-      token:  "007eJxTYPAS0rbU3/48/NexSSfjFu5anrLzsVc6X2ZAeei1S3sm7TNXYDBLTbFISbE0N7c0SDNJNDNOMjIwMzQzSTRINTdLNDY3yby/JK0hkJGh7tV9VkYGCATxWRmCE/NKUhkYAMFoIX8=",
+      token: "007eJxTYMiq0YxW8VSRPvW2zpHDQspJnTP/61EThdua3jM/r/BV/anAYJaaYpGSYmlubmmQZpJoZpxkZGBmaGaSaJBqbpZobG7i0rIsrSGQkUGn5wkLIwMEgvisDMGJeSWpDAwAWb0cig==",
       channelId: "Sante",
       uid: 0,
       options: const ChannelMediaOptions(),
     );
   }
- @override
+
+  @override
   void dispose() {
     super.dispose();
 
