@@ -139,111 +139,114 @@ void _turnAllContainersWhite() async {
               ),
             ),
           ),
-          Container(
-            width: 350,
-            height: 500,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(40),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(28.0),
-              child: Stack(
-                children: [
-                  FutureBuilder<QuerySnapshot>(
-                  future: fetchUserData(),
-                  builder: (context, snapshot) {
-                   
-
-                    if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    }
-
-                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                      return Center(child: Text('Aucun Notification'));
-                    }
-
-                    final documents = snapshot.data!.docs;
-
-                    return ListView.builder(
-                      itemCount: documents.length,
-                      itemBuilder: (context, index) {
-                        final doc = documents[index];
-                        final docId = doc.id;
-                        final isClicked = containerStates[docId] ?? false;
-
-                        return GestureDetector(
-                          onTap: () => _handleContainerClick(docId),
-                          child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 8),
-                            color: allContainersWhite || isClicked ? Colors.white : MyColors.border,
-                            child: ListTile(
-                              leading: const Icon(Icons.notifications, color: MyColors.logoutButton),
-                              title: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    const TextSpan(
-                                      text: 'Un rendez-vous est créé pour le ',
-                                      style: TextStyle(color: MyColors.notiText),
-                                    ),
-                                    TextSpan(
-                                      text: doc['date'] ?? 'No Date',
-                                      style: const TextStyle(color: MyColors.notiText),
-                                    ),
-                                    const TextSpan(
-                                      text: ' à ',
-                                      style: TextStyle(color: MyColors.notiText),
-                                    ),
-                                    TextSpan(
-                                      text: doc['time'] ?? 'No Time',
-                                      style: const TextStyle(color: MyColors.notiText),
-                                    ),
-                                    const TextSpan(
-                                      text: ' avec Dr.',
-                                      style: TextStyle(color: MyColors.notiText),
-                                    ),
-                                    TextSpan(
-                                      text: doc['Dname'] ?? 'No First Name',
-                                      style: const TextStyle(color: MyColors.notiText),
-                                    ),
-                                    TextSpan(
-                                      text: ' ' + (doc['Dlastname'] ?? 'No Last Name'),
-                                      style: const TextStyle(color: MyColors.notiText),
-                                    ),
-                                  ],
+          Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              width: 350,
+              height: 500,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(40),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(28.0),
+                child: Stack(
+                  children: [
+                    FutureBuilder<QuerySnapshot>(
+                    future: fetchUserData(),
+                    builder: (context, snapshot) {
+                     
+            
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      }
+            
+                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                        return Center(child: Text('Aucun Notification'));
+                      }
+            
+                      final documents = snapshot.data!.docs;
+            
+                      return ListView.builder(
+                        itemCount: documents.length,
+                        itemBuilder: (context, index) {
+                          final doc = documents[index];
+                          final docId = doc.id;
+                          final isClicked = containerStates[docId] ?? false;
+            
+                          return GestureDetector(
+                            onTap: () => _handleContainerClick(docId),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 8),
+                              color: allContainersWhite || isClicked ? Colors.white : MyColors.border,
+                              child: ListTile(
+                                leading: const Icon(Icons.notifications, color: MyColors.logoutButton),
+                                title: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      const TextSpan(
+                                        text: 'Un rendez-vous est créé pour le ',
+                                        style: TextStyle(color: MyColors.notiText),
+                                      ),
+                                      TextSpan(
+                                        text: doc['date'] ?? 'No Date',
+                                        style: const TextStyle(color: MyColors.notiText),
+                                      ),
+                                      const TextSpan(
+                                        text: ' à ',
+                                        style: TextStyle(color: MyColors.notiText),
+                                      ),
+                                      TextSpan(
+                                        text: doc['time'] ?? 'No Time',
+                                        style: const TextStyle(color: MyColors.notiText),
+                                      ),
+                                      const TextSpan(
+                                        text: ' avec Dr.',
+                                        style: TextStyle(color: MyColors.notiText),
+                                      ),
+                                      TextSpan(
+                                        text: doc['Dname'] ?? 'No First Name',
+                                        style: const TextStyle(color: MyColors.notiText),
+                                      ),
+                                      TextSpan(
+                                        text: ' ' + (doc['Dlastname'] ?? 'No Last Name'),
+                                        style: const TextStyle(color: MyColors.notiText),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                trailing: const Icon(Icons.navigate_next),
                               ),
-                              trailing: const Icon(Icons.navigate_next),
                             ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
                           ),
-                        );
-                      },
-                    );
-                  },
-                ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(onPressed: _closeDialog, child: Text('Fermer')),
-                            TextButton(
-                              onPressed: _turnAllContainersWhite,
-                              child: Text("lu"),
-                            ),
-                          ],
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(onPressed: _closeDialog, child: Text('Fermer')),
+                              TextButton(
+                                onPressed: _turnAllContainersWhite,
+                                child: Text("lu"),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

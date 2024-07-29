@@ -15,8 +15,15 @@ import 'package:sante_en_poche/constant/colors/colors.dart';
 import 'package:sante_en_poche/firebase/dataRetrieve.dart';
 import 'package:sante_en_poche/firebase/imageadd.dart';
 import 'package:sante_en_poche/screens/appointement/category/Dermatologist.dart';
+import 'package:sante_en_poche/screens/appointement/category/cardiology.dart';
+import 'package:sante_en_poche/screens/appointement/category/dentist.dart';
+import 'package:sante_en_poche/screens/appointement/category/gastro.dart';
 import 'package:sante_en_poche/screens/appointement/category/general.dart';
+import 'package:sante_en_poche/screens/appointement/category/neuro.dart';
+import 'package:sante_en_poche/screens/appointement/category/ophtal.dart';
+import 'package:sante_en_poche/screens/appointement/category/ortho.dart';
 import 'package:sante_en_poche/screens/appointement/category/pediatry.dart';
+import 'package:sante_en_poche/screens/appointement/category/pneu.dart';
 import 'package:sante_en_poche/screens/appointement/search/searchPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -341,7 +348,13 @@ class _MyMainPageState extends State<MyMainPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Back(useAppBar: true,child: Orthopedy(),),
+                                  ),
+                                );
                           },
                           child: Container(
                          height: size.height*0.08,
@@ -412,7 +425,13 @@ class _MyMainPageState extends State<MyMainPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            
+                             Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Back(useAppBar: true,child: Ophtal(),),
+                                  ),
+                                );
                           },
                           child: Container(
                              height: size.height*0.08,
@@ -441,7 +460,13 @@ class _MyMainPageState extends State<MyMainPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Back(useAppBar: true,child: Pneumology(),),
+                                  ),
+                                );
                           },
                           child: Container(
                              height: size.height*0.08,
@@ -474,7 +499,15 @@ class _MyMainPageState extends State<MyMainPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            
+                           
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Back(useAppBar: true,child: Cardiology(),),
+                                  ),
+                                );
+                         
                           },
                           child: Container(
                             height: size.height*0.08,
@@ -504,6 +537,13 @@ class _MyMainPageState extends State<MyMainPage> {
                         GestureDetector(
                           onTap: () {
                             
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Back(useAppBar: true,child: Gastro(),),
+                                  ),
+                                );
                           },
                           child: Container(
                              height: size.height*0.08,
@@ -541,7 +581,13 @@ class _MyMainPageState extends State<MyMainPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            
+                               Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Back(useAppBar: true,child: Dentist(),),
+                                  ),
+                                );
                           },
                           child: Container(
                           height: size.height*0.08,
@@ -572,7 +618,13 @@ class _MyMainPageState extends State<MyMainPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            
+                             Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Back(useAppBar: true,child: Neurology(),),
+                                  ),
+                                );
                           },
                           child: Container(
                              height: size.height*0.08,

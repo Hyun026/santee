@@ -25,29 +25,50 @@ class _MyEmailState extends State<MyEmail> {
     super.dispose();
   }
 
-  Future passwordReset() async {
-         try {
-           await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text.trim());
-          showDialog(context: context, builder: (context){
-            return const AlertDialog(
-              content: const Text("Link pour réinitialiser le mot de passe  à été envoyer"),
-            );
-          });
-         } on FirebaseAuthException catch (e) {
-          print(e);
-          showDialog(context: context, builder: (context){
-            return AlertDialog(
-              content: Text(e.message.toString()),
-            );
-          });
-           
-         }
+ Future passwordReset() async {
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text.trim());
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text("Link pour réinitialiser le mot de passe a été envoyé"),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); 
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyBackground(
+                      child: MyLogin(),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  } on FirebaseAuthException catch (e) {
+    print(e);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text(e.message.toString()),
+        );
+      },
+    );
   }
+}
+
 
    @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return  Center(
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
@@ -98,15 +119,8 @@ class _MyEmailState extends State<MyEmail> {
                           ),
                         ),
                         onPressed: () async {
-                          // Implement password reset logic here
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MyBackground(
-                                child: const MyLogin(),
-                              ),
-                            ),
-                          );
+                    passwordReset();
+                        
                         },
                         child: Text(
                           'Envoyer',
@@ -120,7 +134,7 @@ class _MyEmailState extends State<MyEmail> {
             );
           },
         ),
-      ),
+      
     );
   }
 

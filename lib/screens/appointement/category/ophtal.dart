@@ -76,7 +76,7 @@ class _OphtalState extends State<Ophtal> {
   }
 }
 
-  @override
+@override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Align(
@@ -88,7 +88,7 @@ class _OphtalState extends State<Ophtal> {
             Stack(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 35.h),
+                  padding: EdgeInsets.only(top: 40.h),
                   child: Container(
                     width: size.width * 1,
                     height: size.height * 0.73,
@@ -99,12 +99,11 @@ class _OphtalState extends State<Ophtal> {
                       ),
                     ),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 80.h,
-                        ),
+                      
                         Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.only(right: 20,top: 80, left: 20),
                           child: TextField(
                             onChanged: (value) {
                               setState(() {
@@ -127,7 +126,7 @@ class _OphtalState extends State<Ophtal> {
                               ),
                               filled: true,
                               fillColor: MyColors.searchFill,
-                              suffixIcon: Icon(
+                              suffixIcon: const Icon(
                                 Icons.search,
                                 color: MyColors.verydeepGrey,
                               ),
@@ -148,7 +147,7 @@ class _OphtalState extends State<Ophtal> {
                             decoration: const BoxDecoration(
                               color: MyColors.container2,
                               borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(75.0),
+                                topLeft: Radius.circular(40.0),
                               ),
                             ),
                             child: StreamBuilder<QuerySnapshot>(
@@ -158,9 +157,9 @@ class _OphtalState extends State<Ophtal> {
                                   return Text('Error: ${snapshot.error}');
                                 } else if (!snapshot.hasData ||
                                     snapshot.data!.docs.isEmpty) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(25.0),
-                                    child: const Text('No doctors found'),
+                                  return const Padding(
+                                    padding: EdgeInsets.all(25.0),
+                                    child: Text('Aucun docteur'),
                                   );
                                 } else {
                                   var filteredDocs =
@@ -174,9 +173,9 @@ class _OphtalState extends State<Ophtal> {
                                   }).toList();
 
                                   if (filteredDocs.isEmpty) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(25.0),
-                                      child: const Text('No doctors found'),
+                                    return const Padding(
+                                      padding: EdgeInsets.all(25.0),
+                                      child: Text('Aucun docteur'),
                                     );
                                   }
 
@@ -220,7 +219,7 @@ class _OphtalState extends State<Ophtal> {
                                                             .withOpacity(0.5),
                                                         spreadRadius: 2,
                                                         blurRadius: 5,
-                                                        offset: Offset(0, 3),
+                                                        offset: const Offset(0, 3),
                                                       ),
                                                     ],
                                                     borderRadius:
@@ -271,7 +270,7 @@ class _OphtalState extends State<Ophtal> {
                                                                     blurRadius:
                                                                         5,
                                                                     offset:
-                                                                        Offset(
+                                                                        const Offset(
                                                                             0,
                                                                             3),
                                                                   ),
@@ -290,9 +289,9 @@ class _OphtalState extends State<Ophtal> {
                                                                   overflow:
                                                                       TextOverflow
                                                                           .ellipsis,
-                                                                  style: TextStyle(
+                                                                  style: const TextStyle(
                                                                       fontSize:
-                                                                          20.0,
+                                                                          12.0,
                                                                       color: MyColors
                                                                           .listText,
                                                                       fontWeight:
@@ -301,7 +300,7 @@ class _OphtalState extends State<Ophtal> {
                                                                 ),
                                                                 Text(doctor[
                                                                         'field'] ??
-                                                                    'No field available'),
+                                                                    'No field available',style: const TextStyle(fontSize: 12,color: Colors.black54),),
                                                                 DoctorRating(
                                                                     rating: doctor['rating']
                                                                             ?.toDouble() ??
@@ -312,15 +311,15 @@ class _OphtalState extends State<Ophtal> {
                                                                         Icons
                                                                             .place,
                                                                         color: MyColors
-                                                                            .lightGrey),
+                                                                            .lightGrey,size: 12,),
                                                                     const SizedBox(
                                                                         width:
-                                                                            8.0),
+                                                                            5.0),
                                                                     Text(
                                                                       doctor['localisation'] ??
                                                                           'No address available',
                                                                       style: TextStyle(
-                                                                          fontSize: 16
+                                                                          fontSize: 12
                                                                               .sp,
                                                                           color:
                                                                               Colors.black54),
@@ -396,23 +395,23 @@ class _OphtalState extends State<Ophtal> {
                                                               context,
                                                               MaterialPageRoute(
                                                                 builder: (context) =>
-                                                                    Videocall(
+                                                                    const Videocall(
                                                                         /*channelId: channelId*/),
                                                               ),
                                                             );
                                                           },
                                                           child: Container(
                                                             decoration:
-                                                                BoxDecoration(
+                                                                const BoxDecoration(
                                                               color: Colors.red,
                                                               shape: BoxShape
                                                                   .circle,
                                                             ),
-                                                            child: Icon(
-                                                              Icons.video_call,
+                                                            child: const Icon(
+                                                              Icons.videocam,
                                                               color:
                                                                   Colors.white,
-                                                              size: 30,
+                                                              size: 25,
                                                             ),
                                                           ),
                                                         ),
@@ -426,12 +425,12 @@ class _OphtalState extends State<Ophtal> {
                                               left: 0,
                                               top: 0,
                                               child: Container(
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   color: Colors.white,
                                                   shape: BoxShape.circle,
                                                 ),
                                                 child: Container(
-                                                  margin: EdgeInsets.all(8.0),
+                                                  margin: const EdgeInsets.all(8.0),
                                                   width: 14.0,
                                                   height: 14.0,
                                                   decoration: BoxDecoration(
@@ -465,22 +464,22 @@ class _OphtalState extends State<Ophtal> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: 150.0,
-                        height: 150.0,
+                        width: 90.0.w,
+                        height: 90.0.h,
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [MyColors.CalendarToday, Colors.white],
-                            begin: Alignment.topLeft,
+                            colors: [ Colors.white,MyColors.CalendarToday,],
+                            begin: Alignment.topRight,
                             end: Alignment.bottomRight,
                           ),
                           shape: BoxShape.circle,
                         ),
                         child: Center(
                           child: SizedBox(
-                            width: 100.0,
-                            height: 100.0,
+                            width: 50.0.w,
+                            height: 50.0.h,
                             child: SvgPicture.asset(
-                              'assets/images/search/doc.svg',
+                              'assets/images/search/eye.svg',
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -499,10 +498,10 @@ class _OphtalState extends State<Ophtal> {
                             'Ophtalmologiste',
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(height: 20),
+                           SizedBox(height: 8.h),
                           FutureBuilder<int>(
                             future: fetchGeneralDoctorsCount(),
                             builder: (context, snapshot) {
@@ -510,11 +509,11 @@ class _OphtalState extends State<Ophtal> {
                                 return Text('Error: ${snapshot.error}');
                               } else if (!snapshot.hasData ||
                                   snapshot.data == 0) {
-                                return const Text('No doctors found');
+                                return const Text('Aucun docteur');
                               } else {
                                 return Text(
                                   '${snapshot.data} Docteurs',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 16.0,
                                       color: MyColors.labeltext),
                                 );
@@ -535,7 +534,7 @@ class _OphtalState extends State<Ophtal> {
   }
 
   String generateChannelId() {
-    var uuid = Uuid();
+    var uuid = const Uuid();
     return uuid.v4();
   }
 }
@@ -554,8 +553,8 @@ class DoctorRating extends StatelessWidget {
       direction: Axis.horizontal,
       allowHalfRating: true,
       itemCount: 5,
-      itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-      itemBuilder: (context, _) => Icon(
+      itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+      itemBuilder: (context, _) => const Icon(
         Icons.star,
         color: MyColors.starOn,
       ),

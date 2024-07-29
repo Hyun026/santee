@@ -461,7 +461,7 @@ class _MyMedGState extends State<MyMedG> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 60.w,
+                    horizontal: 20.w,
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -512,7 +512,7 @@ class _MyMedGState extends State<MyMedG> {
                                 return Text('Error: ${snapshot.error}');
                               } else if (!snapshot.hasData ||
                                   snapshot.data == 0) {
-                                return const Text('No doctors found');
+                                return const Text('Aucun docteur');
                               } else {
                                 return Text(
                                   '${snapshot.data} Docteurs',
