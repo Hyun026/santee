@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sante_en_poche/constant/background/back.dart';
+import 'package:sante_en_poche/constant/notifications/noti.dart';
+import 'package:sante_en_poche/constant/notifications/notification.dart';
 import 'package:sante_en_poche/screens/appointement/search/searchlist.dart';
 
 
-class Backmain extends StatelessWidget {
+class Backmain extends StatefulWidget {
   final Widget child;
   final bool useAppBar;
   const Backmain( {Key? key,
@@ -15,9 +19,54 @@ class Backmain extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<Backmain> createState() => _BackmainState();
+}
+
+class _BackmainState extends State<Backmain> {
+     final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  User? user;
+  int unreadCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeUnreadCount();
+     _initializeUnreadCountD();
+  }
+// for patient
+  Future<void> _initializeUnreadCount() async {
+    user = _auth.currentUser;
+    if (user != null) {
+      final querySnapshot = await _firestore
+          .collection('notiPat')
+          .where('user', isEqualTo: user!.uid)
+          .where('isRead', isEqualTo: false)
+          .get();
+      setState(() {
+        unreadCount = querySnapshot.docs.length;
+      });
+    }
+  }
+
+  //for doctor
+  Future<void> _initializeUnreadCountD() async {
+    user = _auth.currentUser;
+    if (user != null) {
+      final querySnapshot = await _firestore
+          .collection('notiDoc')
+          .where('user', isEqualTo: user!.uid)
+          .where('isRead', isEqualTo: false)
+          .get();
+      setState(() {
+        unreadCount = querySnapshot.docs.length;
+      });
+    }
+  }
+  @override
   Widget build(BuildContext context) {
     PreferredSizeWidget? appBarWidget;
-    if (useAppBar == true) {
+    if (widget.useAppBar == true) {
       appBarWidget = AppBar(
         elevation: 0,
         leading: IconButton(
@@ -33,13 +82,84 @@ class Backmain extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         actions: [
-      IconButton(
-        color: Colors.white,
-        icon: const Icon(Icons.notifications),
-        onPressed: () {
-         
-        },
-      ),
+      Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: IconButton(
+              color: Colors.white,
+              icon: Stack(
+                children: [
+                  Icon(Icons.notifications),
+                  if (unreadCount > 0)
+                    Positioned(
+                      right: 0,
+                      child: Container(
+                        padding: EdgeInsets.all(1),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: 12,
+                          minHeight: 12,
+                        ),
+                        child: Text(
+                          '$unreadCount',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 8,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              onPressed: () async {
+                user = _auth.currentUser;
+                if (user != null) {
+                  DocumentSnapshot userDoc =
+                      await _firestore.collection('users').doc(user!.uid).get();
+                  DocumentSnapshot userDocT =
+                      await _firestore.collection('doctors').doc(user!.uid).get();
+
+                  if (userDoc.exists) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 60.0, right: 10.0),
+                            child: NotificationDialog(
+                              onNotificationsRead: _initializeUnreadCount,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  } else if (userDocT.exists) {
+                       showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 60.0, right: 10.0),
+                            child: MyNoti(
+                              onNotificationsRead: () {
+                                _initializeUnreadCountD(); 
+                                
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                }
+              },
+            ),
+          ),
     ],
       );
     }
@@ -66,7 +186,7 @@ class Backmain extends StatelessWidget {
               'assets/images/background/Intersection 1.svg',
             ),
           ),
-          child,
+          widget.child,
         ]
       ),
      floatingActionButton: FloatingActionButton(

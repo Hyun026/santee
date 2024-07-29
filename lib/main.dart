@@ -7,9 +7,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-import 'package:sante_en_poche/connection/check.dart';
-
-
 import 'package:sante_en_poche/constant/background/background.dart';
 import 'package:sante_en_poche/constant/background/backgroundhome.dart';
 
@@ -44,7 +41,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: const connectCheck(),
+      child:  MainScreen(),
     );
   }
 }

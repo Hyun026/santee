@@ -105,7 +105,7 @@ class _MyLoginState extends State<MyLogin> {
                           decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            hintText: '      E-mail ou CIN',
+                            hintText: 'E-mail ou CIN',
                             hintStyle: TextStyle(
                               color: Color(0xffafafaf),
                               fontSize: 14,

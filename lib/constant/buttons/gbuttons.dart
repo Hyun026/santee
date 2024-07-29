@@ -23,13 +23,13 @@ class ButtonItem extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: isActive ? Colors.blue : Colors.grey, size: 20),
+              Icon(icon, color: isActive ? Colors.blue : Colors.grey, size: 10),
               const SizedBox(width: 5),
               Text(
                 text,
                 style: TextStyle(
                   color: isActive ? MyColors.navy : Colors.grey,
-                  fontSize: 14,
+                  fontSize: 10,
                 ),
               ),
             ],
@@ -39,9 +39,9 @@ class ButtonItem extends StatelessWidget {
               margin: const EdgeInsets.only(top: 5),
               width: 65,
               height: 5,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.blue,
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50),
                   topRight: Radius.circular(50),
                 ),

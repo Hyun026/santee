@@ -158,16 +158,14 @@ void _turnAllContainersWhite() async {
                   FutureBuilder<QuerySnapshot>(
                   future: fetchUserData(),
                   builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    }
+                  
 
                     if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     }
 
                     if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                      return Center(child: Text('No data found.'));
+                      return Center(child: Text('Aucun Notification'));
                     }
 
                     final documents = snapshot.data!.docs;
