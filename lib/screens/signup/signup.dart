@@ -239,13 +239,14 @@ class _MySignupState extends State<MySignup> {
                             );
                             return;
                           }
+                              String trimmedEmail = emailController.text.trim();
                           final prefs = await   SharedPreferences.getInstance();
                                 prefs.setString("name", nameController.text);
                                 prefs.setString("lastname", lastnameController.text);
                      
                         
                           User? result = await AuthService().register(
-                            emailController.text,
+                            trimmedEmail,
                             passwordController.text,
                             context,
                           );
